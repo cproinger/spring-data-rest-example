@@ -1,0 +1,555 @@
+08-29 23:13:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax Fehler in SQL Befehl "﻿[*]                 
+                                                                                                                                                                                                                                                                                                                                                                                                            
+
+
+CREATE TABLE ""Artist""
+(
+    ""ArtistId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Artist"" PRIMARY KEY  (""ArtistId"")
+);
+
+CREATE TABLE ""Album""
+(
+    ""AlbumId"" INTEGER  NOT NULL,
+    ""Title"" NVARCHAR(160)  NOT NULL,
+    ""ArtistId"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_Album"" PRIMARY KEY  (""AlbumId""),
+    FOREIGN KEY (""ArtistId"") REFERENCES ""Artist"" (""ArtistId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""Employee""
+(
+    ""EmployeeId"" INTEGER  NOT NULL,
+    ""LastName"" NVARCHAR(20)  NOT NULL,
+    ""FirstName"" NVARCHAR(20)  NOT NULL,
+    ""Title"" NVARCHAR(30),
+    ""ReportsTo"" INTEGER,
+    ""BirthDate"" DATETIME,
+    ""HireDate"" DATETIME,
+    ""Address"" NVARCHAR(70),
+    ""City"" NVARCHAR(40),
+    ""State"" NVARCHAR(40),
+    ""Country"" NVARCHAR(40),
+    ""PostalCode"" NVARCHAR(10),
+    ""Phone"" NVARCHAR(24),
+    ""Fax"" NVARCHAR(24),
+    ""Email"" NVARCHAR(60),
+    CONSTRAINT ""PK_Employee"" PRIMARY KEY  (""EmployeeId""),
+    FOREIGN KEY (""ReportsTo"") REFERENCES ""Employee"" (""EmployeeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE ""Customer""
+(
+    ""CustomerId"" INTEGER  NOT NULL,
+    ""FirstName"" NVARCHAR(40)  NOT NULL,
+    ""LastName"" NVARCHAR(20)  NOT NULL,
+    ""Company"" NVARCHAR(80),
+    ""Address"" NVARCHAR(70),
+    ""City"" NVARCHAR(40),
+    ""State"" NVARCHAR(40),
+    ""Country"" NVARCHAR(40),
+    ""PostalCode"" NVARCHAR(10),
+    ""Phone"" NVARCHAR(24),
+    ""Fax"" NVARCHAR(24),
+    ""Email"" NVARCHAR(60)  NOT NULL,
+    ""SupportRepId"" INTEGER,
+    CONSTRAINT ""PK_Customer"" PRIMARY KEY  (""CustomerId""),
+    FOREIGN KEY (""SupportRepId"") REFERENCES ""Employee"" (""EmployeeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""Genre""
+(
+    ""GenreId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Genre"" PRIMARY KEY  (""GenreId"")
+);
+
+
+
+CREATE TABLE ""Invoice""
+(
+    ""InvoiceId"" INTEGER  NOT NULL,
+    ""CustomerId"" INTEGER  NOT NULL,
+    ""InvoiceDate"" DATETIME  NOT NULL,
+    ""BillingAddress"" NVARCHAR(70),
+    ""BillingCity"" NVARCHAR(40),
+    ""BillingState"" NVARCHAR(40),
+    ""BillingCountry"" NVARCHAR(40),
+    ""BillingPostalCode"" NVARCHAR(10),
+    ""Total"" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT ""PK_Invoice"" PRIMARY KEY  (""InvoiceId""),
+    FOREIGN KEY (""CustomerId"") REFERENCES ""Customer"" (""CustomerId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+CREATE TABLE ""MediaType""
+(
+    ""MediaTypeId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_MediaType"" PRIMARY KEY  (""MediaTypeId"")
+);
+
+CREATE TABLE ""Playlist""
+(
+    ""PlaylistId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Playlist"" PRIMARY KEY  (""PlaylistId"")
+);
+
+
+CREATE TABLE ""Track""
+(
+    ""TrackId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(200)  NOT NULL,
+    ""AlbumId"" INTEGER,
+    ""MediaTypeId"" INTEGER  NOT NULL,
+    ""GenreId"" INTEGER,
+    ""Composer"" NVARCHAR(220),
+    ""Milliseconds"" INTEGER  NOT NULL,
+    ""Bytes"" INTEGER,
+    ""UnitPrice"" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT ""PK_Track"" PRIMARY KEY  (""TrackId""),
+    FOREIGN KEY (""AlbumId"") REFERENCES ""Album"" (""AlbumId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""GenreId"") REFERENCES ""Genre"" (""GenreId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""MediaTypeId"") REFERENCES ""MediaType"" (""MediaTypeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE ""PlaylistTrack""
+(
+    ""PlaylistId"" INTEGER  NOT NULL,
+    ""TrackId"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_PlaylistTrack"" PRIMARY KEY  (""PlaylistId"", ""TrackId""),
+    FOREIGN KEY (""PlaylistId"") REFERENCES ""Playlist"" (""PlaylistId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""TrackId"") REFERENCES ""Track"" (""TrackId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""InvoiceLine""
+(
+    ""InvoiceLineId"" INTEGER  NOT NULL,
+    ""InvoiceId"" INTEGER  NOT NULL,
+    ""TrackId"" INTEGER  NOT NULL,
+    ""UnitPrice"" NUMERIC(10,2)  NOT NULL,
+    ""Quantity"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_InvoiceLine"" PRIMARY KEY  (""InvoiceLineId""),
+    FOREIGN KEY (""InvoiceId"") REFERENCES ""Invoice"" (""InvoiceId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""TrackId"") REFERENCES ""Track"" (""TrackId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE INDEX ""IFK_AlbumArtistId"" ON ""Album"" (""ArtistId"");
+
+CREATE INDEX ""IFK_CustomerSupportRepId"" ON ""Customer"" (""SupportRepId"");
+
+CREATE INDEX ""IFK_EmployeeReportsTo"" ON ""Employee"" (""ReportsTo"");
+
+CREATE INDEX ""IFK_InvoiceCustomerId"" ON ""Invoice"" (""CustomerId"");
+
+CREATE INDEX ""IFK_InvoiceLineInvoiceId"" ON ""InvoiceLine"" (""InvoiceId"");
+
+CREATE INDEX ""IFK_InvoiceLineTrackId"" ON ""InvoiceLine"" (""TrackId"");
+
+CREATE INDEX ""IFK_PlaylistTrackTrackId"" ON ""PlaylistTrack"" (""TrackId"");
+
+CREATE INDEX ""IFK_TrackAlbumId"" ON ""Track"" (""AlbumId"");
+
+CREATE INDEX ""IFK_TrackGenreId"" ON ""Track"" (""GenreId"");
+
+CREATE INDEX ""IFK_TrackMediaTypeId"" ON ""Track"" (""MediaTypeId""); "
+Syntax error in SQL statement "﻿[*]                 
+                                                                                                                                                                                                                                                                                                                                                                                                            
+
+
+CREATE TABLE ""Artist""
+(
+    ""ArtistId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Artist"" PRIMARY KEY  (""ArtistId"")
+);
+
+CREATE TABLE ""Album""
+(
+    ""AlbumId"" INTEGER  NOT NULL,
+    ""Title"" NVARCHAR(160)  NOT NULL,
+    ""ArtistId"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_Album"" PRIMARY KEY  (""AlbumId""),
+    FOREIGN KEY (""ArtistId"") REFERENCES ""Artist"" (""ArtistId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""Employee""
+(
+    ""EmployeeId"" INTEGER  NOT NULL,
+    ""LastName"" NVARCHAR(20)  NOT NULL,
+    ""FirstName"" NVARCHAR(20)  NOT NULL,
+    ""Title"" NVARCHAR(30),
+    ""ReportsTo"" INTEGER,
+    ""BirthDate"" DATETIME,
+    ""HireDate"" DATETIME,
+    ""Address"" NVARCHAR(70),
+    ""City"" NVARCHAR(40),
+    ""State"" NVARCHAR(40),
+    ""Country"" NVARCHAR(40),
+    ""PostalCode"" NVARCHAR(10),
+    ""Phone"" NVARCHAR(24),
+    ""Fax"" NVARCHAR(24),
+    ""Email"" NVARCHAR(60),
+    CONSTRAINT ""PK_Employee"" PRIMARY KEY  (""EmployeeId""),
+    FOREIGN KEY (""ReportsTo"") REFERENCES ""Employee"" (""EmployeeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE ""Customer""
+(
+    ""CustomerId"" INTEGER  NOT NULL,
+    ""FirstName"" NVARCHAR(40)  NOT NULL,
+    ""LastName"" NVARCHAR(20)  NOT NULL,
+    ""Company"" NVARCHAR(80),
+    ""Address"" NVARCHAR(70),
+    ""City"" NVARCHAR(40),
+    ""State"" NVARCHAR(40),
+    ""Country"" NVARCHAR(40),
+    ""PostalCode"" NVARCHAR(10),
+    ""Phone"" NVARCHAR(24),
+    ""Fax"" NVARCHAR(24),
+    ""Email"" NVARCHAR(60)  NOT NULL,
+    ""SupportRepId"" INTEGER,
+    CONSTRAINT ""PK_Customer"" PRIMARY KEY  (""CustomerId""),
+    FOREIGN KEY (""SupportRepId"") REFERENCES ""Employee"" (""EmployeeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""Genre""
+(
+    ""GenreId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Genre"" PRIMARY KEY  (""GenreId"")
+);
+
+
+
+CREATE TABLE ""Invoice""
+(
+    ""InvoiceId"" INTEGER  NOT NULL,
+    ""CustomerId"" INTEGER  NOT NULL,
+    ""InvoiceDate"" DATETIME  NOT NULL,
+    ""BillingAddress"" NVARCHAR(70),
+    ""BillingCity"" NVARCHAR(40),
+    ""BillingState"" NVARCHAR(40),
+    ""BillingCountry"" NVARCHAR(40),
+    ""BillingPostalCode"" NVARCHAR(10),
+    ""Total"" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT ""PK_Invoice"" PRIMARY KEY  (""InvoiceId""),
+    FOREIGN KEY (""CustomerId"") REFERENCES ""Customer"" (""CustomerId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+CREATE TABLE ""MediaType""
+(
+    ""MediaTypeId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_MediaType"" PRIMARY KEY  (""MediaTypeId"")
+);
+
+CREATE TABLE ""Playlist""
+(
+    ""PlaylistId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(120),
+    CONSTRAINT ""PK_Playlist"" PRIMARY KEY  (""PlaylistId"")
+);
+
+
+CREATE TABLE ""Track""
+(
+    ""TrackId"" INTEGER  NOT NULL,
+    ""Name"" NVARCHAR(200)  NOT NULL,
+    ""AlbumId"" INTEGER,
+    ""MediaTypeId"" INTEGER  NOT NULL,
+    ""GenreId"" INTEGER,
+    ""Composer"" NVARCHAR(220),
+    ""Milliseconds"" INTEGER  NOT NULL,
+    ""Bytes"" INTEGER,
+    ""UnitPrice"" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT ""PK_Track"" PRIMARY KEY  (""TrackId""),
+    FOREIGN KEY (""AlbumId"") REFERENCES ""Album"" (""AlbumId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""GenreId"") REFERENCES ""Genre"" (""GenreId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""MediaTypeId"") REFERENCES ""MediaType"" (""MediaTypeId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE ""PlaylistTrack""
+(
+    ""PlaylistId"" INTEGER  NOT NULL,
+    ""TrackId"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_PlaylistTrack"" PRIMARY KEY  (""PlaylistId"", ""TrackId""),
+    FOREIGN KEY (""PlaylistId"") REFERENCES ""Playlist"" (""PlaylistId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""TrackId"") REFERENCES ""Track"" (""TrackId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ""InvoiceLine""
+(
+    ""InvoiceLineId"" INTEGER  NOT NULL,
+    ""InvoiceId"" INTEGER  NOT NULL,
+    ""TrackId"" INTEGER  NOT NULL,
+    ""UnitPrice"" NUMERIC(10,2)  NOT NULL,
+    ""Quantity"" INTEGER  NOT NULL,
+    CONSTRAINT ""PK_InvoiceLine"" PRIMARY KEY  (""InvoiceLineId""),
+    FOREIGN KEY (""InvoiceId"") REFERENCES ""Invoice"" (""InvoiceId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (""TrackId"") REFERENCES ""Track"" (""TrackId"") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE INDEX ""IFK_AlbumArtistId"" ON ""Album"" (""ArtistId"");
+
+CREATE INDEX ""IFK_CustomerSupportRepId"" ON ""Customer"" (""SupportRepId"");
+
+CREATE INDEX ""IFK_EmployeeReportsTo"" ON ""Employee"" (""ReportsTo"");
+
+CREATE INDEX ""IFK_InvoiceCustomerId"" ON ""Invoice"" (""CustomerId"");
+
+CREATE INDEX ""IFK_InvoiceLineInvoiceId"" ON ""InvoiceLine"" (""InvoiceId"");
+
+CREATE INDEX ""IFK_InvoiceLineTrackId"" ON ""InvoiceLine"" (""TrackId"");
+
+CREATE INDEX ""IFK_PlaylistTrackTrackId"" ON ""PlaylistTrack"" (""TrackId"");
+
+CREATE INDEX ""IFK_TrackAlbumId"" ON ""Track"" (""AlbumId"");
+
+CREATE INDEX ""IFK_TrackGenreId"" ON ""Track"" (""GenreId"");
+
+CREATE INDEX ""IFK_TrackMediaTypeId"" ON ""Track"" (""MediaTypeId""); "; SQL statement:
+﻿-- adapted from. 
+/*******************************************************************************
+   Chinook Database - Version 1.4
+   Script: Chinook_Sqlite.sql
+   Description: Creates and populates the Chinook database.
+   DB Server: Sqlite
+   Author: Luis Rocha
+   License: http://www.codeplex.com/ChinookDatabase/license
+********************************************************************************/
+
+
+CREATE TABLE "Artist"
+(
+    "ArtistId" INTEGER  NOT NULL,
+    "Name" NVARCHAR(120),
+    CONSTRAINT "PK_Artist" PRIMARY KEY  ("ArtistId")
+);
+
+CREATE TABLE "Album"
+(
+    "AlbumId" INTEGER  NOT NULL,
+    "Title" NVARCHAR(160)  NOT NULL,
+    "ArtistId" INTEGER  NOT NULL,
+    CONSTRAINT "PK_Album" PRIMARY KEY  ("AlbumId"),
+    FOREIGN KEY ("ArtistId") REFERENCES "Artist" ("ArtistId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE "Employee"
+(
+    "EmployeeId" INTEGER  NOT NULL,
+    "LastName" NVARCHAR(20)  NOT NULL,
+    "FirstName" NVARCHAR(20)  NOT NULL,
+    "Title" NVARCHAR(30),
+    "ReportsTo" INTEGER,
+    "BirthDate" DATETIME,
+    "HireDate" DATETIME,
+    "Address" NVARCHAR(70),
+    "City" NVARCHAR(40),
+    "State" NVARCHAR(40),
+    "Country" NVARCHAR(40),
+    "PostalCode" NVARCHAR(10),
+    "Phone" NVARCHAR(24),
+    "Fax" NVARCHAR(24),
+    "Email" NVARCHAR(60),
+    CONSTRAINT "PK_Employee" PRIMARY KEY  ("EmployeeId"),
+    FOREIGN KEY ("ReportsTo") REFERENCES "Employee" ("EmployeeId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE "Customer"
+(
+    "CustomerId" INTEGER  NOT NULL,
+    "FirstName" NVARCHAR(40)  NOT NULL,
+    "LastName" NVARCHAR(20)  NOT NULL,
+    "Company" NVARCHAR(80),
+    "Address" NVARCHAR(70),
+    "City" NVARCHAR(40),
+    "State" NVARCHAR(40),
+    "Country" NVARCHAR(40),
+    "PostalCode" NVARCHAR(10),
+    "Phone" NVARCHAR(24),
+    "Fax" NVARCHAR(24),
+    "Email" NVARCHAR(60)  NOT NULL,
+    "SupportRepId" INTEGER,
+    CONSTRAINT "PK_Customer" PRIMARY KEY  ("CustomerId"),
+    FOREIGN KEY ("SupportRepId") REFERENCES "Employee" ("EmployeeId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE "Genre"
+(
+    "GenreId" INTEGER  NOT NULL,
+    "Name" NVARCHAR(120),
+    CONSTRAINT "PK_Genre" PRIMARY KEY  ("GenreId")
+);
+
+
+
+CREATE TABLE "Invoice"
+(
+    "InvoiceId" INTEGER  NOT NULL,
+    "CustomerId" INTEGER  NOT NULL,
+    "InvoiceDate" DATETIME  NOT NULL,
+    "BillingAddress" NVARCHAR(70),
+    "BillingCity" NVARCHAR(40),
+    "BillingState" NVARCHAR(40),
+    "BillingCountry" NVARCHAR(40),
+    "BillingPostalCode" NVARCHAR(10),
+    "Total" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT "PK_Invoice" PRIMARY KEY  ("InvoiceId"),
+    FOREIGN KEY ("CustomerId") REFERENCES "Customer" ("CustomerId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+CREATE TABLE "MediaType"
+(
+    "MediaTypeId" INTEGER  NOT NULL,
+    "Name" NVARCHAR(120),
+    CONSTRAINT "PK_MediaType" PRIMARY KEY  ("MediaTypeId")
+);
+
+CREATE TABLE "Playlist"
+(
+    "PlaylistId" INTEGER  NOT NULL,
+    "Name" NVARCHAR(120),
+    CONSTRAINT "PK_Playlist" PRIMARY KEY  ("PlaylistId")
+);
+
+
+CREATE TABLE "Track"
+(
+    "TrackId" INTEGER  NOT NULL,
+    "Name" NVARCHAR(200)  NOT NULL,
+    "AlbumId" INTEGER,
+    "MediaTypeId" INTEGER  NOT NULL,
+    "GenreId" INTEGER,
+    "Composer" NVARCHAR(220),
+    "Milliseconds" INTEGER  NOT NULL,
+    "Bytes" INTEGER,
+    "UnitPrice" NUMERIC(10,2)  NOT NULL,
+    CONSTRAINT "PK_Track" PRIMARY KEY  ("TrackId"),
+    FOREIGN KEY ("AlbumId") REFERENCES "Album" ("AlbumId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ("GenreId") REFERENCES "Genre" ("GenreId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ("MediaTypeId") REFERENCES "MediaType" ("MediaTypeId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+
+
+CREATE TABLE "PlaylistTrack"
+(
+    "PlaylistId" INTEGER  NOT NULL,
+    "TrackId" INTEGER  NOT NULL,
+    CONSTRAINT "PK_PlaylistTrack" PRIMARY KEY  ("PlaylistId", "TrackId"),
+    FOREIGN KEY ("PlaylistId") REFERENCES "Playlist" ("PlaylistId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ("TrackId") REFERENCES "Track" ("TrackId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE "InvoiceLine"
+(
+    "InvoiceLineId" INTEGER  NOT NULL,
+    "InvoiceId" INTEGER  NOT NULL,
+    "TrackId" INTEGER  NOT NULL,
+    "UnitPrice" NUMERIC(10,2)  NOT NULL,
+    "Quantity" INTEGER  NOT NULL,
+    CONSTRAINT "PK_InvoiceLine" PRIMARY KEY  ("InvoiceLineId"),
+    FOREIGN KEY ("InvoiceId") REFERENCES "Invoice" ("InvoiceId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY ("TrackId") REFERENCES "Track" ("TrackId") 
+		ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE INDEX "IFK_AlbumArtistId" ON "Album" ("ArtistId");
+
+CREATE INDEX "IFK_CustomerSupportRepId" ON "Customer" ("SupportRepId");
+
+CREATE INDEX "IFK_EmployeeReportsTo" ON "Employee" ("ReportsTo");
+
+CREATE INDEX "IFK_InvoiceCustomerId" ON "Invoice" ("CustomerId");
+
+CREATE INDEX "IFK_InvoiceLineInvoiceId" ON "InvoiceLine" ("InvoiceId");
+
+CREATE INDEX "IFK_InvoiceLineTrackId" ON "InvoiceLine" ("TrackId");
+
+CREATE INDEX "IFK_PlaylistTrackTrackId" ON "PlaylistTrack" ("TrackId");
+
+CREATE INDEX "IFK_TrackAlbumId" ON "Track" ("AlbumId");
+
+CREATE INDEX "IFK_TrackGenreId" ON "Track" ("GenreId");
+
+CREATE INDEX "IFK_TrackMediaTypeId" ON "Track" ("MediaTypeId"); [42000-187]
+08-29 23:15:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Tabelle "ALBUM" nicht gefunden
+Table "ALBUM" not found; SQL statement:
+select * from Album [42102-187]
+08-30 09:52:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Dieses Feature wird nicht unterstützt: "VARCHAR +"
+Feature not supported: "VARCHAR +"; SQL statement:
+select 'ALTER TABLE ' + TABLE_NAME, * from information_schema.columns where ordinal_position = 1 and TABLE_SCHEMA = 'PUBLIC' [50100-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.message.DbException.getUnsupportedException(DbException.java:216)
+	at org.h2.value.Value.throwUnsupportedExceptionForType(Value.java:1098)
+	at org.h2.value.Value.add(Value.java:461)
+	at org.h2.expression.Operation.getValue(Operation.java:145)
+	at org.h2.command.dml.Select.queryFlat(Select.java:580)
+	at org.h2.command.dml.Select.queryWithoutCache(Select.java:685)
+	at org.h2.command.dml.Query.query(Query.java:322)
+	at org.h2.command.dml.Query.query(Query.java:290)
+	at org.h2.command.dml.Query.query(Query.java:36)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:90)
+	at org.h2.command.Command.executeQuery(Command.java:197)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:179)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1390)
+	at org.h2.server.web.WebApp.query(WebApp.java:1063)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1025)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1012)
+	at org.h2.server.web.WebThread.process(WebThread.java:168)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Thread.java:745)
