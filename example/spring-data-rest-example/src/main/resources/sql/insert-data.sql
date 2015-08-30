@@ -1,14 +1,3 @@
-﻿-- adapted from. 
-/*******************************************************************************
-   Chinook Database - Version 1.4
-   Script: Chinook_Sqlite.sql
-   Description: Creates and populates the Chinook database.
-   DB Server: Sqlite
-   Author: Luis Rocha
-   License: http://www.codeplex.com/ChinookDatabase/license
-********************************************************************************/
-
-
 INSERT INTO "Genre" ("GenreId", "Name") VALUES (1, 'Rock');
 INSERT INTO "Genre" ("GenreId", "Name") VALUES (2, 'Jazz');
 INSERT INTO "Genre" ("GenreId", "Name") VALUES (3, 'Metal');
@@ -15632,3 +15621,14 @@ INSERT INTO "PlaylistTrack" ("PlaylistId", "TrackId") VALUES (17, 2096);
 INSERT INTO "PlaylistTrack" ("PlaylistId", "TrackId") VALUES (17, 3290);
 INSERT INTO "PlaylistTrack" ("PlaylistId", "TrackId") VALUES (18, 597);
 
+ALTER TABLE "Artist" ALTER COLUMN "ArtistId" INTEGER auto_increment;
+ALTER TABLE "Playlist" ALTER COLUMN "PlaylistId" INTEGER auto_increment;
+ALTER TABLE "Employee" ALTER COLUMN "EmployeeId" INTEGER auto_increment;
+ALTER TABLE "Invoice" ALTER COLUMN "InvoiceId" INTEGER auto_increment;
+ALTER TABLE "Customer" ALTER COLUMN "CustomerId" INTEGER auto_increment;
+ALTER TABLE "InvoiceLine" ALTER COLUMN "InvoiceLineId" INTEGER auto_increment;
+ALTER TABLE "Album" ALTER COLUMN "AlbumId" INTEGER auto_increment;
+ALTER TABLE "MediaType" ALTER COLUMN "MediaTypeId" INTEGER auto_increment;
+ALTER TABLE "PlaylistTrack" ALTER COLUMN "PlaylistId" INTEGER auto_increment;
+ALTER TABLE "Genre" ALTER COLUMN "GenreId" INTEGER auto_increment;
+ALTER TABLE "Track" ALTER COLUMN "TrackId" INTEGER auto_increment;

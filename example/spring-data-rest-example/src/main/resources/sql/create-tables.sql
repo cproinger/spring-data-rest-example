@@ -1,14 +1,3 @@
-﻿-- adapted from. 
-/*******************************************************************************
-   Chinook Database - Version 1.4
-   Script: Chinook_Sqlite.sql
-   Description: Creates and populates the Chinook database.
-   DB Server: Sqlite
-   Author: Luis Rocha
-   License: http://www.codeplex.com/ChinookDatabase/license
-********************************************************************************/
-
-
 CREATE TABLE "Artist"
 (
     "ArtistId" INTEGER  NOT NULL,
