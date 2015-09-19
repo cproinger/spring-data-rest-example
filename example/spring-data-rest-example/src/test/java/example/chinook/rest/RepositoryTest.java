@@ -62,41 +62,49 @@ public class RepositoryTest {
 		new TestContextManager(getClass()).prepareTestInstance(this);
 		this.root = "http://localhost:" + port;
 	}
+	
+	@Test
+	public void testGET_1() {
+		get(root + "/" + name + "/1");
+	}
 
 	@Test
 	public void testGET() {
 		// Request.Get("http://localhost:8080/")
-		String url = root + "/" + name;
+		get(root + "/" + name);
+		// ResponseEntity<Map> entity = rest.getForEntity(url, Map.class);
+		/*
+		 * <200
+		 * OK,{_links={playlists={href=http://localhost:8080/playlists{?
+		 * page, size,sort}, templated=true},
+		 * customers={href=http://localhost:8080/customers{?page,size,sort},
+		 * templated=true},
+		 * invoices={href=http://localhost:8080/invoices{?page,size,sort},
+		 * templated=true},
+		 * artists={href=http://localhost:8080/artists{?page,size,sort},
+		 * templated=true},
+		 * employees={href=http://localhost:8080/employees{?page,size,sort},
+		 * templated=true},
+		 * mediatypes={href=http://localhost:8080/mediatypes{?page,size,sort
+		 * }, templated=true},
+		 * genres={href=http://localhost:8080/genres{?page,size,sort},
+		 * templated=true},
+		 * albums={href=http://localhost:8080/albums{?page,size,sort},
+		 * templated=true},
+		 * profile={href=http://localhost:8080/alps}}},{Server=[Apache-
+		 * Coyote/1. 1], Content-Type=[application/json;charset=UTF-8],
+		 * Transfer-Encoding=[chunked], Date=[Sat, 19 Sep 2015 08:39:54
+		 * GMT]}>
+		 */
+	}
+
+	private void get(String pUrl) {
+		String url = pUrl;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
-		HttpEntity requestEntity = new HttpEntity<>(headers);
+		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 		try {
 			ResponseEntity<Map> entity = rest.exchange(url, HttpMethod.GET, requestEntity, Map.class);
-
-			// ResponseEntity<Map> entity = rest.getForEntity(url, Map.class);
-			/*
-			 * <200
-			 * OK,{_links={playlists={href=http://localhost:8080/playlists{?
-			 * page, size,sort}, templated=true},
-			 * customers={href=http://localhost:8080/customers{?page,size,sort},
-			 * templated=true},
-			 * invoices={href=http://localhost:8080/invoices{?page,size,sort},
-			 * templated=true},
-			 * artists={href=http://localhost:8080/artists{?page,size,sort},
-			 * templated=true},
-			 * employees={href=http://localhost:8080/employees{?page,size,sort},
-			 * templated=true},
-			 * mediatypes={href=http://localhost:8080/mediatypes{?page,size,sort
-			 * }, templated=true},
-			 * genres={href=http://localhost:8080/genres{?page,size,sort},
-			 * templated=true},
-			 * albums={href=http://localhost:8080/albums{?page,size,sort},
-			 * templated=true},
-			 * profile={href=http://localhost:8080/alps}}},{Server=[Apache-
-			 * Coyote/1. 1], Content-Type=[application/json;charset=UTF-8],
-			 * Transfer-Encoding=[chunked], Date=[Sat, 19 Sep 2015 08:39:54
-			 * GMT]}>
-			 */
 			System.out.println(entity);
 
 			assertEquals(HttpStatus.OK, entity.getStatusCode());
