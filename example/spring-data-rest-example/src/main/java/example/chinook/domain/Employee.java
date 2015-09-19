@@ -50,6 +50,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Employee</p>
@@ -58,47 +60,47 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Employee")
-@Table (name="\"employee\"")
-@NamedQueries ({
-	 @NamedQuery(name="Employee.findAll", query="SELECT a FROM Employee a")
-	,@NamedQuery(name="Employee.findByLastname", query="SELECT a FROM Employee a WHERE a.lastname = :lastname")
-	,@NamedQuery(name="Employee.findByLastnameContaining", query="SELECT a FROM Employee a WHERE a.lastname like :lastname")
-
-	,@NamedQuery(name="Employee.findByFirstname", query="SELECT a FROM Employee a WHERE a.firstname = :firstname")
-	,@NamedQuery(name="Employee.findByFirstnameContaining", query="SELECT a FROM Employee a WHERE a.firstname like :firstname")
-
-	,@NamedQuery(name="Employee.findByTitle", query="SELECT a FROM Employee a WHERE a.title = :title")
-	,@NamedQuery(name="Employee.findByTitleContaining", query="SELECT a FROM Employee a WHERE a.title like :title")
-
-	,@NamedQuery(name="Employee.findByBirthdate", query="SELECT a FROM Employee a WHERE a.birthdate = :birthdate")
-
-	,@NamedQuery(name="Employee.findByHiredate", query="SELECT a FROM Employee a WHERE a.hiredate = :hiredate")
-
-	,@NamedQuery(name="Employee.findByAddress", query="SELECT a FROM Employee a WHERE a.address = :address")
-	,@NamedQuery(name="Employee.findByAddressContaining", query="SELECT a FROM Employee a WHERE a.address like :address")
-
-	,@NamedQuery(name="Employee.findByCity", query="SELECT a FROM Employee a WHERE a.city = :city")
-	,@NamedQuery(name="Employee.findByCityContaining", query="SELECT a FROM Employee a WHERE a.city like :city")
-
-	,@NamedQuery(name="Employee.findByState", query="SELECT a FROM Employee a WHERE a.state = :state")
-	,@NamedQuery(name="Employee.findByStateContaining", query="SELECT a FROM Employee a WHERE a.state like :state")
-
-	,@NamedQuery(name="Employee.findByCountry", query="SELECT a FROM Employee a WHERE a.country = :country")
-	,@NamedQuery(name="Employee.findByCountryContaining", query="SELECT a FROM Employee a WHERE a.country like :country")
-
-	,@NamedQuery(name="Employee.findByPostalcode", query="SELECT a FROM Employee a WHERE a.postalcode = :postalcode")
-	,@NamedQuery(name="Employee.findByPostalcodeContaining", query="SELECT a FROM Employee a WHERE a.postalcode like :postalcode")
-
-	,@NamedQuery(name="Employee.findByPhone", query="SELECT a FROM Employee a WHERE a.phone = :phone")
-	,@NamedQuery(name="Employee.findByPhoneContaining", query="SELECT a FROM Employee a WHERE a.phone like :phone")
-
-	,@NamedQuery(name="Employee.findByFax", query="SELECT a FROM Employee a WHERE a.fax = :fax")
-	,@NamedQuery(name="Employee.findByFaxContaining", query="SELECT a FROM Employee a WHERE a.fax like :fax")
-
-	,@NamedQuery(name="Employee.findByEmail", query="SELECT a FROM Employee a WHERE a.email = :email")
-	,@NamedQuery(name="Employee.findByEmailContaining", query="SELECT a FROM Employee a WHERE a.email like :email")
-
-})
+@Table (name="Employee")
+//@NamedQueries ({
+//	 @NamedQuery(name="Employee.findAll", query="SELECT a FROM Employee a")
+//	,@NamedQuery(name="Employee.findByLastname", query="SELECT a FROM Employee a WHERE a.lastname = :lastname")
+//	,@NamedQuery(name="Employee.findByLastnameContaining", query="SELECT a FROM Employee a WHERE a.lastname like :lastname")
+//
+//	,@NamedQuery(name="Employee.findByFirstname", query="SELECT a FROM Employee a WHERE a.firstname = :firstname")
+//	,@NamedQuery(name="Employee.findByFirstnameContaining", query="SELECT a FROM Employee a WHERE a.firstname like :firstname")
+//
+//	,@NamedQuery(name="Employee.findByTitle", query="SELECT a FROM Employee a WHERE a.title = :title")
+//	,@NamedQuery(name="Employee.findByTitleContaining", query="SELECT a FROM Employee a WHERE a.title like :title")
+//
+//	,@NamedQuery(name="Employee.findByBirthdate", query="SELECT a FROM Employee a WHERE a.birthdate = :birthdate")
+//
+//	,@NamedQuery(name="Employee.findByHiredate", query="SELECT a FROM Employee a WHERE a.hiredate = :hiredate")
+//
+//	,@NamedQuery(name="Employee.findByAddress", query="SELECT a FROM Employee a WHERE a.address = :address")
+//	,@NamedQuery(name="Employee.findByAddressContaining", query="SELECT a FROM Employee a WHERE a.address like :address")
+//
+//	,@NamedQuery(name="Employee.findByCity", query="SELECT a FROM Employee a WHERE a.city = :city")
+//	,@NamedQuery(name="Employee.findByCityContaining", query="SELECT a FROM Employee a WHERE a.city like :city")
+//
+//	,@NamedQuery(name="Employee.findByState", query="SELECT a FROM Employee a WHERE a.state = :state")
+//	,@NamedQuery(name="Employee.findByStateContaining", query="SELECT a FROM Employee a WHERE a.state like :state")
+//
+//	,@NamedQuery(name="Employee.findByCountry", query="SELECT a FROM Employee a WHERE a.country = :country")
+//	,@NamedQuery(name="Employee.findByCountryContaining", query="SELECT a FROM Employee a WHERE a.country like :country")
+//
+//	,@NamedQuery(name="Employee.findByPostalcode", query="SELECT a FROM Employee a WHERE a.postalcode = :postalcode")
+//	,@NamedQuery(name="Employee.findByPostalcodeContaining", query="SELECT a FROM Employee a WHERE a.postalcode like :postalcode")
+//
+//	,@NamedQuery(name="Employee.findByPhone", query="SELECT a FROM Employee a WHERE a.phone = :phone")
+//	,@NamedQuery(name="Employee.findByPhoneContaining", query="SELECT a FROM Employee a WHERE a.phone like :phone")
+//
+//	,@NamedQuery(name="Employee.findByFax", query="SELECT a FROM Employee a WHERE a.fax = :fax")
+//	,@NamedQuery(name="Employee.findByFaxContaining", query="SELECT a FROM Employee a WHERE a.fax like :fax")
+//
+//	,@NamedQuery(name="Employee.findByEmail", query="SELECT a FROM Employee a WHERE a.email = :email")
+//	,@NamedQuery(name="Employee.findByEmailContaining", query="SELECT a FROM Employee a WHERE a.email like :email")
+//
+//})
 
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -129,9 +131,9 @@ public class Employee implements Serializable {
     public static final String FIND_BY_EMAIL = "Employee.findByEmail";
     public static final String FIND_BY_EMAIL_CONTAINING ="Employee.findByEmailContaining";
 	
-    @Id @Column(name="EmployeeId" ) 
+    @Id @Column(name="Employee_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer employeeid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @LastName-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @LastName-field-annotation@
@@ -225,20 +227,20 @@ public class Employee implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY )
-    @JoinColumn(name="ReportsTo", referencedColumnName = "EmployeeId" , nullable=true , unique=false , insertable=true, updatable=true) 
+    @JoinColumn(name="ReportsTo", referencedColumnName = "Employee_id" , nullable=true , unique=false , insertable=true, updatable=true) 
     private Employee reportsto;  
 
     @Column(name="ReportsTo"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer reportsto_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @customerEmployeeViaSupportrepid-field-employee@
-    @OneToMany (targetEntity=example.chinook.domain.Customer.class, fetch=FetchType.LAZY, mappedBy="supportrepid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Customer> customerEmployeeViaSupportrepid = new HashSet<Customer>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Customer.class, fetch=FetchType.LAZY, mappedBy="supportrep", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Customer> customerEmployeeViaSupportrepid = new HashSet<Customer>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @employeeEmployeeViaReportsto-field-employee@
-    @OneToMany (targetEntity=example.chinook.domain.Employee.class, fetch=FetchType.LAZY, mappedBy="reportsto", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Employee> employeeEmployeeViaReportsto = new HashSet<Employee>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Employee.class, fetch=FetchType.LAZY, mappedBy="reportsto", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Employee> employeeEmployeeViaReportsto = new HashSet<Employee>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -247,110 +249,8 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Employee(
-       Integer employeeid,
-       String lastname,
-       String firstname,
-       String title,
-       Integer reportsto,
-       Timestamp birthdate,
-       Timestamp hiredate,
-       String address,
-       String city,
-       String state,
-       String country,
-       String postalcode,
-       String phone,
-       String fax,
-       String email) {
-	 this(
-       employeeid,
-       lastname,
-       firstname,
-       title,
-       reportsto,
-       birthdate,
-       hiredate,
-       address,
-       city,
-       state,
-       country,
-       postalcode,
-       phone,
-       fax,
-       email
-	 ,true);
-	}
-    
-	public Employee(
-       Integer employeeid,
-       String lastname,
-       String firstname,
-       String title,
-       Integer reportsto,
-       Timestamp birthdate,
-       Timestamp hiredate,
-       String address,
-       String city,
-       String state,
-       String country,
-       String postalcode,
-       String phone,
-       String fax,
-       String email	
-    , boolean setRelationship) {
-       //primary keys
-       setEmployeeid (employeeid);
-       //attributes
-       setLastname (lastname);
-       setFirstname (firstname);
-       setTitle (title);
-       setBirthdate (birthdate);
-       setHiredate (hiredate);
-       setAddress (address);
-       setCity (city);
-       setState (state);
-       setCountry (country);
-       setPostalcode (postalcode);
-       setPhone (phone);
-       setFax (fax);
-       setEmail (email);
-       //parents
-       if (setRelationship) this.reportsto = new Employee();
-       if (setRelationship) this.reportsto.setEmployeeid(reportsto); 
-	   setReportsto_ (reportsto);
-    }
-
-	public Employee flat() {
-	   return new Employee(
-          getEmployeeid(),
-          getLastname(),
-          getFirstname(),
-          getTitle(),
-          getReportsto_(),
-          getBirthdate(),
-          getHiredate(),
-          getAddress(),
-          getCity(),
-          getState(),
-          getCountry(),
-          getPostalcode(),
-          getPhone(),
-          getFax(),
-          getEmail()
-       , false
-	   );
-	}
-
-    public Integer getEmployeeid() {
-        return employeeid;
-    }
-	
-    public void setEmployeeid (Integer employeeid) {
-        this.employeeid =  employeeid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-LastName@
@@ -504,48 +404,40 @@ public class Employee implements Serializable {
     public void setReportsto (Employee reportsto) {
     	this.reportsto = reportsto;
     }
-
-    public Integer getReportsto_() {
-        return reportsto_;
-    }
-	
-    public void setReportsto_ (Integer reportsto) {
-        this.reportsto_ =  reportsto;
-    }
 	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @customerEmployeeViaSupportrepid-getter-employee@
-    public Set<Customer> getCustomerEmployeeViaSupportrepid() {
-        if (customerEmployeeViaSupportrepid == null){
-            customerEmployeeViaSupportrepid = new HashSet<Customer>();
-        }
-        return customerEmployeeViaSupportrepid;
-    }
-
-    public void setCustomerEmployeeViaSupportrepid (Set<Customer> customerEmployeeViaSupportrepid) {
-        this.customerEmployeeViaSupportrepid = customerEmployeeViaSupportrepid;
-    }	
-    
-    public void addCustomerEmployeeViaSupportrepid (Customer element) {
-    	    getCustomerEmployeeViaSupportrepid().add(element);
-    }
+//    public Set<Customer> getCustomerEmployeeViaSupportrepid() {
+//        if (customerEmployeeViaSupportrepid == null){
+//            customerEmployeeViaSupportrepid = new HashSet<Customer>();
+//        }
+//        return customerEmployeeViaSupportrepid;
+//    }
+//
+//    public void setCustomerEmployeeViaSupportrepid (Set<Customer> customerEmployeeViaSupportrepid) {
+//        this.customerEmployeeViaSupportrepid = customerEmployeeViaSupportrepid;
+//    }	
+//    
+//    public void addCustomerEmployeeViaSupportrepid (Customer element) {
+//    	    getCustomerEmployeeViaSupportrepid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @employeeEmployeeViaReportsto-getter-employee@
-    public Set<Employee> getEmployeeEmployeeViaReportsto() {
-        if (employeeEmployeeViaReportsto == null){
-            employeeEmployeeViaReportsto = new HashSet<Employee>();
-        }
-        return employeeEmployeeViaReportsto;
-    }
-
-    public void setEmployeeEmployeeViaReportsto (Set<Employee> employeeEmployeeViaReportsto) {
-        this.employeeEmployeeViaReportsto = employeeEmployeeViaReportsto;
-    }	
-    
-    public void addEmployeeEmployeeViaReportsto (Employee element) {
-    	    getEmployeeEmployeeViaReportsto().add(element);
-    }
+//    public Set<Employee> getEmployeeEmployeeViaReportsto() {
+//        if (employeeEmployeeViaReportsto == null){
+//            employeeEmployeeViaReportsto = new HashSet<Employee>();
+//        }
+//        return employeeEmployeeViaReportsto;
+//    }
+//
+//    public void setEmployeeEmployeeViaReportsto (Set<Employee> employeeEmployeeViaReportsto) {
+//        this.employeeEmployeeViaReportsto = employeeEmployeeViaReportsto;
+//    }	
+//    
+//    public void addEmployeeEmployeeViaReportsto (Employee element) {
+//    	    getEmployeeEmployeeViaReportsto().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

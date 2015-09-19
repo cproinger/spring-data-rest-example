@@ -45,6 +45,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Mediatype</p>
@@ -53,13 +55,13 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Mediatype")
-@Table (name="\"mediatype\"")
-@NamedQueries ({
-	 @NamedQuery(name="Mediatype.findAll", query="SELECT a FROM Mediatype a")
-	,@NamedQuery(name="Mediatype.findByName", query="SELECT a FROM Mediatype a WHERE a.name = :name")
-	,@NamedQuery(name="Mediatype.findByNameContaining", query="SELECT a FROM Mediatype a WHERE a.name like :name")
-
-})
+@Table (name="Mediatype")
+//@NamedQueries ({
+//	 @NamedQuery(name="Mediatype.findAll", query="SELECT a FROM Mediatype a")
+//	,@NamedQuery(name="Mediatype.findByName", query="SELECT a FROM Mediatype a WHERE a.name = :name")
+//	,@NamedQuery(name="Mediatype.findByNameContaining", query="SELECT a FROM Mediatype a WHERE a.name like :name")
+//
+//})
 
 public class Mediatype implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -68,9 +70,9 @@ public class Mediatype implements Serializable {
     public static final String FIND_BY_NAME = "Mediatype.findByName";
     public static final String FIND_BY_NAME_CONTAINING ="Mediatype.findByNameContaining";
 	
-    @Id @Column(name="MediaTypeId" ) 
+    @Id @Column(name="MediaType_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer mediatypeid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @Name-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @Name-field-annotation@
@@ -80,8 +82,8 @@ public class Mediatype implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackMediatypeViaMediatypeid-field-mediatype@
-    @OneToMany (targetEntity=example.chinook.domain.Track.class, fetch=FetchType.LAZY, mappedBy="mediatypeid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Track> trackMediatypeViaMediatypeid = new HashSet<Track>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Track.class, fetch=FetchType.LAZY, mappedBy="mediatype", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Track> trackMediatypeViaMediatypeid = new HashSet<Track>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -90,43 +92,8 @@ public class Mediatype implements Serializable {
     public Mediatype() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Mediatype(
-       Integer mediatypeid,
-       String name) {
-	 this(
-       mediatypeid,
-       name
-	 ,true);
-	}
-    
-	public Mediatype(
-       Integer mediatypeid,
-       String name	
-    , boolean setRelationship) {
-       //primary keys
-       setMediatypeid (mediatypeid);
-       //attributes
-       setName (name);
-       //parents
-    }
-
-	public Mediatype flat() {
-	   return new Mediatype(
-          getMediatypeid(),
-          getName()
-       , false
-	   );
-	}
-
-    public Integer getMediatypeid() {
-        return mediatypeid;
-    }
-	
-    public void setMediatypeid (Integer mediatypeid) {
-        this.mediatypeid =  mediatypeid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-Name@
@@ -143,20 +110,20 @@ public class Mediatype implements Serializable {
 
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackMediatypeViaMediatypeid-getter-mediatype@
-    public Set<Track> getTrackMediatypeViaMediatypeid() {
-        if (trackMediatypeViaMediatypeid == null){
-            trackMediatypeViaMediatypeid = new HashSet<Track>();
-        }
-        return trackMediatypeViaMediatypeid;
-    }
-
-    public void setTrackMediatypeViaMediatypeid (Set<Track> trackMediatypeViaMediatypeid) {
-        this.trackMediatypeViaMediatypeid = trackMediatypeViaMediatypeid;
-    }	
+//    public Set<Track> getTrackMediatypeViaMediatypeid() {
+//        if (trackMediatypeViaMediatypeid == null){
+//            trackMediatypeViaMediatypeid = new HashSet<Track>();
+//        }
+//        return trackMediatypeViaMediatypeid;
+//    }
+//
+//    public void setTrackMediatypeViaMediatypeid (Set<Track> trackMediatypeViaMediatypeid) {
+//        this.trackMediatypeViaMediatypeid = trackMediatypeViaMediatypeid;
+//    }	
     
-    public void addTrackMediatypeViaMediatypeid (Track element) {
-    	    getTrackMediatypeViaMediatypeid().add(element);
-    }
+//    public void addTrackMediatypeViaMediatypeid (Track element) {
+//    	    getTrackMediatypeViaMediatypeid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

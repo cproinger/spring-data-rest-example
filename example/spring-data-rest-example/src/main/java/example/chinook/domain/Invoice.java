@@ -50,6 +50,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Invoice</p>
@@ -58,29 +60,29 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Invoice")
-@Table (name="\"invoice\"")
-@NamedQueries ({
-	 @NamedQuery(name="Invoice.findAll", query="SELECT a FROM Invoice a")
-	,@NamedQuery(name="Invoice.findByInvoicedate", query="SELECT a FROM Invoice a WHERE a.invoicedate = :invoicedate")
-
-	,@NamedQuery(name="Invoice.findByBillingaddress", query="SELECT a FROM Invoice a WHERE a.billingaddress = :billingaddress")
-	,@NamedQuery(name="Invoice.findByBillingaddressContaining", query="SELECT a FROM Invoice a WHERE a.billingaddress like :billingaddress")
-
-	,@NamedQuery(name="Invoice.findByBillingcity", query="SELECT a FROM Invoice a WHERE a.billingcity = :billingcity")
-	,@NamedQuery(name="Invoice.findByBillingcityContaining", query="SELECT a FROM Invoice a WHERE a.billingcity like :billingcity")
-
-	,@NamedQuery(name="Invoice.findByBillingstate", query="SELECT a FROM Invoice a WHERE a.billingstate = :billingstate")
-	,@NamedQuery(name="Invoice.findByBillingstateContaining", query="SELECT a FROM Invoice a WHERE a.billingstate like :billingstate")
-
-	,@NamedQuery(name="Invoice.findByBillingcountry", query="SELECT a FROM Invoice a WHERE a.billingcountry = :billingcountry")
-	,@NamedQuery(name="Invoice.findByBillingcountryContaining", query="SELECT a FROM Invoice a WHERE a.billingcountry like :billingcountry")
-
-	,@NamedQuery(name="Invoice.findByBillingpostalcode", query="SELECT a FROM Invoice a WHERE a.billingpostalcode = :billingpostalcode")
-	,@NamedQuery(name="Invoice.findByBillingpostalcodeContaining", query="SELECT a FROM Invoice a WHERE a.billingpostalcode like :billingpostalcode")
-
-	,@NamedQuery(name="Invoice.findByTotal", query="SELECT a FROM Invoice a WHERE a.total = :total")
-
-})
+@Table (name="Invoice")
+//@NamedQueries ({
+//	 @NamedQuery(name="Invoice.findAll", query="SELECT a FROM Invoice a")
+//	,@NamedQuery(name="Invoice.findByInvoicedate", query="SELECT a FROM Invoice a WHERE a.invoicedate = :invoicedate")
+//
+//	,@NamedQuery(name="Invoice.findByBillingaddress", query="SELECT a FROM Invoice a WHERE a.billingaddress = :billingaddress")
+//	,@NamedQuery(name="Invoice.findByBillingaddressContaining", query="SELECT a FROM Invoice a WHERE a.billingaddress like :billingaddress")
+//
+//	,@NamedQuery(name="Invoice.findByBillingcity", query="SELECT a FROM Invoice a WHERE a.billingcity = :billingcity")
+//	,@NamedQuery(name="Invoice.findByBillingcityContaining", query="SELECT a FROM Invoice a WHERE a.billingcity like :billingcity")
+//
+//	,@NamedQuery(name="Invoice.findByBillingstate", query="SELECT a FROM Invoice a WHERE a.billingstate = :billingstate")
+//	,@NamedQuery(name="Invoice.findByBillingstateContaining", query="SELECT a FROM Invoice a WHERE a.billingstate like :billingstate")
+//
+//	,@NamedQuery(name="Invoice.findByBillingcountry", query="SELECT a FROM Invoice a WHERE a.billingcountry = :billingcountry")
+//	,@NamedQuery(name="Invoice.findByBillingcountryContaining", query="SELECT a FROM Invoice a WHERE a.billingcountry like :billingcountry")
+//
+//	,@NamedQuery(name="Invoice.findByBillingpostalcode", query="SELECT a FROM Invoice a WHERE a.billingpostalcode = :billingpostalcode")
+//	,@NamedQuery(name="Invoice.findByBillingpostalcodeContaining", query="SELECT a FROM Invoice a WHERE a.billingpostalcode like :billingpostalcode")
+//
+//	,@NamedQuery(name="Invoice.findByTotal", query="SELECT a FROM Invoice a WHERE a.total = :total")
+//
+//})
 
 public class Invoice implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -99,9 +101,9 @@ public class Invoice implements Serializable {
     public static final String FIND_BY_BILLINGPOSTALCODE_CONTAINING ="Invoice.findByBillingpostalcodeContaining";
     public static final String FIND_BY_TOTAL = "Invoice.findByTotal";
 	
-    @Id @Column(name="InvoiceId" ) 
+    @Id @Column(name="Invoice_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer invoiceid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @InvoiceDate-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @InvoiceDate-field-annotation@
@@ -153,15 +155,15 @@ public class Invoice implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="CustomerId", referencedColumnName = "CustomerId" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private Customer customerid;  
+    @JoinColumn(name="Customer_id", referencedColumnName = "Customer_id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    private Customer customer;  
 
-    @Column(name="CustomerId"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="Customer_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer customerid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineInvoiceViaInvoiceid-field-invoice@
-    @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="invoiceid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Invoiceline> invoicelineInvoiceViaInvoiceid = new HashSet<Invoiceline>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="invoice", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Invoiceline> invoicelineInvoiceViaInvoiceid = new HashSet<Invoiceline>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -170,82 +172,10 @@ public class Invoice implements Serializable {
     public Invoice() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Invoice(
-       Integer invoiceid,
-       Integer customerid,
-       Timestamp invoicedate,
-       String billingaddress,
-       String billingcity,
-       String billingstate,
-       String billingcountry,
-       String billingpostalcode,
-       java.math.BigDecimal total) {
-	 this(
-       invoiceid,
-       customerid,
-       invoicedate,
-       billingaddress,
-       billingcity,
-       billingstate,
-       billingcountry,
-       billingpostalcode,
-       total
-	 ,true);
-	}
-    
-	public Invoice(
-       Integer invoiceid,
-       Integer customerid,
-       Timestamp invoicedate,
-       String billingaddress,
-       String billingcity,
-       String billingstate,
-       String billingcountry,
-       String billingpostalcode,
-       java.math.BigDecimal total	
-    , boolean setRelationship) {
-       //primary keys
-       setInvoiceid (invoiceid);
-       //attributes
-       setInvoicedate (invoicedate);
-       setBillingaddress (billingaddress);
-       setBillingcity (billingcity);
-       setBillingstate (billingstate);
-       setBillingcountry (billingcountry);
-       setBillingpostalcode (billingpostalcode);
-       setTotal (total);
-       //parents
-       if (setRelationship) this.customerid = new Customer();
-       if (setRelationship) this.customerid.setCustomerid(customerid); 
-	   setCustomerid_ (customerid);
+    public Integer getId() {
+        return id;
     }
 
-	public Invoice flat() {
-	   return new Invoice(
-          getInvoiceid(),
-          getCustomerid_(),
-          getInvoicedate(),
-          getBillingaddress(),
-          getBillingcity(),
-          getBillingstate(),
-          getBillingcountry(),
-          getBillingpostalcode(),
-          getTotal()
-       , false
-	   );
-	}
-
-    public Integer getInvoiceid() {
-        return invoiceid;
-    }
-	
-    public void setInvoiceid (Integer invoiceid) {
-        this.invoiceid =  invoiceid;
-    }
-    
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-InvoiceDate@
     public Timestamp getInvoicedate() {
         return invoicedate;
@@ -324,38 +254,30 @@ public class Invoice implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
 
-    public Customer getCustomerid () {
-    	return customerid;
+    public Customer getCustomer () {
+    	return customer;
     }
 	
-    public void setCustomerid (Customer customerid) {
-    	this.customerid = customerid;
-    }
-
-    public Integer getCustomerid_() {
-        return customerid_;
-    }
-	
-    public void setCustomerid_ (Integer customerid) {
-        this.customerid_ =  customerid;
+    public void setCustomer (Customer customer) {
+    	this.customer = customer;
     }
 	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineInvoiceViaInvoiceid-getter-invoice@
-    public Set<Invoiceline> getInvoicelineInvoiceViaInvoiceid() {
-        if (invoicelineInvoiceViaInvoiceid == null){
-            invoicelineInvoiceViaInvoiceid = new HashSet<Invoiceline>();
-        }
-        return invoicelineInvoiceViaInvoiceid;
-    }
-
-    public void setInvoicelineInvoiceViaInvoiceid (Set<Invoiceline> invoicelineInvoiceViaInvoiceid) {
-        this.invoicelineInvoiceViaInvoiceid = invoicelineInvoiceViaInvoiceid;
-    }	
-    
-    public void addInvoicelineInvoiceViaInvoiceid (Invoiceline element) {
-    	    getInvoicelineInvoiceViaInvoiceid().add(element);
-    }
+//    public Set<Invoiceline> getInvoicelineInvoiceViaInvoiceid() {
+//        if (invoicelineInvoiceViaInvoiceid == null){
+//            invoicelineInvoiceViaInvoiceid = new HashSet<Invoiceline>();
+//        }
+//        return invoicelineInvoiceViaInvoiceid;
+//    }
+//
+//    public void setInvoicelineInvoiceViaInvoiceid (Set<Invoiceline> invoicelineInvoiceViaInvoiceid) {
+//        this.invoicelineInvoiceViaInvoiceid = invoicelineInvoiceViaInvoiceid;
+//    }	
+//    
+//    public void addInvoicelineInvoiceViaInvoiceid (Invoiceline element) {
+//    	    getInvoicelineInvoiceViaInvoiceid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

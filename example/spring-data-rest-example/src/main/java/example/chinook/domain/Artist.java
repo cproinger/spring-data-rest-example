@@ -45,6 +45,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Artist</p>
@@ -53,7 +55,7 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Artist")
-@Table (name="\"artist\"")
+@Table (name="Artist")
 @NamedQueries ({
 	 @NamedQuery(name="Artist.findAll", query="SELECT a FROM Artist a")
 	,@NamedQuery(name="Artist.findByName", query="SELECT a FROM Artist a WHERE a.name = :name")
@@ -68,9 +70,9 @@ public class Artist implements Serializable {
     public static final String FIND_BY_NAME = "Artist.findByName";
     public static final String FIND_BY_NAME_CONTAINING ="Artist.findByNameContaining";
 	
-    @Id @Column(name="ArtistId" ) 
+    @Id @Column(name="Artist_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer artistid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @Name-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @Name-field-annotation@
@@ -80,8 +82,8 @@ public class Artist implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @albumArtistViaArtistid-field-artist@
-    @OneToMany (targetEntity=example.chinook.domain.Album.class, fetch=FetchType.LAZY, mappedBy="artistid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Album> albumArtistViaArtistid = new HashSet<Album>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Album.class, fetch=FetchType.LAZY, mappedBy="artist", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Album> albumArtistViaArtistid = new HashSet<Album>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -90,43 +92,8 @@ public class Artist implements Serializable {
     public Artist() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Artist(
-       Integer artistid,
-       String name) {
-	 this(
-       artistid,
-       name
-	 ,true);
-	}
-    
-	public Artist(
-       Integer artistid,
-       String name	
-    , boolean setRelationship) {
-       //primary keys
-       setArtistid (artistid);
-       //attributes
-       setName (name);
-       //parents
-    }
-
-	public Artist flat() {
-	   return new Artist(
-          getArtistid(),
-          getName()
-       , false
-	   );
-	}
-
-    public Integer getArtistid() {
-        return artistid;
-    }
-	
-    public void setArtistid (Integer artistid) {
-        this.artistid =  artistid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-Name@
@@ -143,20 +110,20 @@ public class Artist implements Serializable {
 
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @albumArtistViaArtistid-getter-artist@
-    public Set<Album> getAlbumArtistViaArtistid() {
-        if (albumArtistViaArtistid == null){
-            albumArtistViaArtistid = new HashSet<Album>();
-        }
-        return albumArtistViaArtistid;
-    }
-
-    public void setAlbumArtistViaArtistid (Set<Album> albumArtistViaArtistid) {
-        this.albumArtistViaArtistid = albumArtistViaArtistid;
-    }	
-    
-    public void addAlbumArtistViaArtistid (Album element) {
-    	    getAlbumArtistViaArtistid().add(element);
-    }
+//    public Set<Album> getAlbumArtistViaArtistid() {
+//        if (albumArtistViaArtistid == null){
+//            albumArtistViaArtistid = new HashSet<Album>();
+//        }
+//        return albumArtistViaArtistid;
+//    }
+//
+//    public void setAlbumArtistViaArtistid (Set<Album> albumArtistViaArtistid) {
+//        this.albumArtistViaArtistid = albumArtistViaArtistid;
+//    }	
+//    
+//    public void addAlbumArtistViaArtistid (Album element) {
+//    	    getAlbumArtistViaArtistid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

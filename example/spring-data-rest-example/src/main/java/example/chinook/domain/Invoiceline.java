@@ -39,8 +39,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -51,14 +49,14 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Invoiceline")
-@Table (name="\"invoiceline\"")
-@NamedQueries ({
-	 @NamedQuery(name="Invoiceline.findAll", query="SELECT a FROM Invoiceline a")
-	,@NamedQuery(name="Invoiceline.findByUnitprice", query="SELECT a FROM Invoiceline a WHERE a.unitprice = :unitprice")
-
-	,@NamedQuery(name="Invoiceline.findByQuantity", query="SELECT a FROM Invoiceline a WHERE a.quantity = :quantity")
-
-})
+@Table (name="Invoiceline")
+//@NamedQueries ({
+//	 @NamedQuery(name="Invoiceline.findAll", query="SELECT a FROM Invoiceline a")
+//	,@NamedQuery(name="Invoiceline.findByUnitprice", query="SELECT a FROM Invoiceline a WHERE a.unitprice = :unitprice")
+//
+//	,@NamedQuery(name="Invoiceline.findByQuantity", query="SELECT a FROM Invoiceline a WHERE a.quantity = :quantity")
+//
+//})
 
 public class Invoiceline implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -67,9 +65,9 @@ public class Invoiceline implements Serializable {
     public static final String FIND_BY_UNITPRICE = "Invoiceline.findByUnitprice";
     public static final String FIND_BY_QUANTITY = "Invoiceline.findByQuantity";
 	
-    @Id @Column(name="InvoiceLineId" ) 
+    @Id @Column(name="InvoiceLine_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer invoicelineid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @UnitPrice-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @UnitPrice-field-annotation@
@@ -86,17 +84,17 @@ public class Invoiceline implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="InvoiceId", referencedColumnName = "InvoiceId" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private Invoice invoiceid;  
+    @JoinColumn(name="Invoice_id", referencedColumnName = "Invoice_id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    private Invoice invoice;  
 
-    @Column(name="InvoiceId"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="Invoice_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer invoiceid_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="TrackId", referencedColumnName = "TrackId" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private Track trackid;  
+    @JoinColumn(name="Track_id", referencedColumnName = "Track_id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    private Track track;  
 
-    @Column(name="TrackId"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="Track_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer trackid_;
 
     /**
@@ -104,63 +102,9 @@ public class Invoiceline implements Serializable {
     */
     public Invoiceline() {
     }
-
-	/**
-	* All field constructor 
-	*/
-    public Invoiceline(
-       Integer invoicelineid,
-       Integer invoiceid,
-       Integer trackid,
-       java.math.BigDecimal unitprice,
-       Integer quantity) {
-	 this(
-       invoicelineid,
-       invoiceid,
-       trackid,
-       unitprice,
-       quantity
-	 ,true);
-	}
     
-	public Invoiceline(
-       Integer invoicelineid,
-       Integer invoiceid,
-       Integer trackid,
-       java.math.BigDecimal unitprice,
-       Integer quantity	
-    , boolean setRelationship) {
-       //primary keys
-       setInvoicelineid (invoicelineid);
-       //attributes
-       setUnitprice (unitprice);
-       setQuantity (quantity);
-       //parents
-       if (setRelationship) this.invoiceid = new Invoice();
-       if (setRelationship) this.invoiceid.setInvoiceid(invoiceid); 
-	   setInvoiceid_ (invoiceid);
-       if (setRelationship) this.trackid = new Track();
-       if (setRelationship) this.trackid.setTrackid(trackid); 
-	   setTrackid_ (trackid);
-    }
-
-	public Invoiceline flat() {
-	   return new Invoiceline(
-          getInvoicelineid(),
-          getInvoiceid_(),
-          getTrackid_(),
-          getUnitprice(),
-          getQuantity()
-       , false
-	   );
-	}
-
-    public Integer getInvoicelineid() {
-        return invoicelineid;
-    }
-	
-    public void setInvoicelineid (Integer invoicelineid) {
-        this.invoicelineid =  invoicelineid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-UnitPrice@
@@ -187,11 +131,11 @@ public class Invoiceline implements Serializable {
 
 
     public Invoice getInvoiceid () {
-    	return invoiceid;
+    	return invoice;
     }
 	
     public void setInvoiceid (Invoice invoiceid) {
-    	this.invoiceid = invoiceid;
+    	this.invoice = invoiceid;
     }
 
     public Integer getInvoiceid_() {
@@ -203,11 +147,11 @@ public class Invoiceline implements Serializable {
     }
 	
     public Track getTrackid () {
-    	return trackid;
+    	return track;
     }
 	
     public void setTrackid (Track trackid) {
-    	this.trackid = trackid;
+    	this.track = trackid;
     }
 
     public Integer getTrackid_() {

@@ -53,13 +53,13 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Playlist")
-@Table (name="\"playlist\"")
-@NamedQueries ({
-	 @NamedQuery(name="Playlist.findAll", query="SELECT a FROM Playlist a")
-	,@NamedQuery(name="Playlist.findByName", query="SELECT a FROM Playlist a WHERE a.name = :name")
-	,@NamedQuery(name="Playlist.findByNameContaining", query="SELECT a FROM Playlist a WHERE a.name like :name")
-
-})
+@Table (name="Playlist")
+//@NamedQueries ({
+//	 @NamedQuery(name="Playlist.findAll", query="SELECT a FROM Playlist a")
+//	,@NamedQuery(name="Playlist.findByName", query="SELECT a FROM Playlist a WHERE a.name = :name")
+//	,@NamedQuery(name="Playlist.findByNameContaining", query="SELECT a FROM Playlist a WHERE a.name like :name")
+//
+//})
 
 public class Playlist implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -68,9 +68,9 @@ public class Playlist implements Serializable {
     public static final String FIND_BY_NAME = "Playlist.findByName";
     public static final String FIND_BY_NAME_CONTAINING ="Playlist.findByNameContaining";
 	
-    @Id @Column(name="PlaylistId" ) 
+    @Id @Column(name="Playlist_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer playlistid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @Name-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @Name-field-annotation@
@@ -82,8 +82,8 @@ public class Playlist implements Serializable {
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @m2m-trackPlaylisttrackViaTrackid-playlist@
     @ManyToMany
     @JoinTable(name="PLAYLISTTRACK", 
-        joinColumns=@JoinColumn(name="PlaylistId"), 
-        inverseJoinColumns=@JoinColumn(name="TrackId") 
+        joinColumns=@JoinColumn(name="Playlist_id"), 
+        inverseJoinColumns=@JoinColumn(name="Track_id") 
     )
     private Set <Track> trackPlaylisttrackViaTrackid = new HashSet <Track> (); 
 // playlisttrack.TrackId->track.TrackId -- playlisttrack.TrackId->track.TrackId
@@ -96,43 +96,8 @@ public class Playlist implements Serializable {
     public Playlist() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Playlist(
-       Integer playlistid,
-       String name) {
-	 this(
-       playlistid,
-       name
-	 ,true);
-	}
-    
-	public Playlist(
-       Integer playlistid,
-       String name	
-    , boolean setRelationship) {
-       //primary keys
-       setPlaylistid (playlistid);
-       //attributes
-       setName (name);
-       //parents
-    }
-
-	public Playlist flat() {
-	   return new Playlist(
-          getPlaylistid(),
-          getName()
-       , false
-	   );
-	}
-
-    public Integer getPlaylistid() {
-        return playlistid;
-    }
-	
-    public void setPlaylistid (Integer playlistid) {
-        this.playlistid =  playlistid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-Name@

@@ -47,6 +47,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Customer</p>
@@ -55,43 +57,43 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Customer")
-@Table (name="\"customer\"")
-@NamedQueries ({
-	 @NamedQuery(name="Customer.findAll", query="SELECT a FROM Customer a")
-	,@NamedQuery(name="Customer.findByFirstname", query="SELECT a FROM Customer a WHERE a.firstname = :firstname")
-	,@NamedQuery(name="Customer.findByFirstnameContaining", query="SELECT a FROM Customer a WHERE a.firstname like :firstname")
-
-	,@NamedQuery(name="Customer.findByLastname", query="SELECT a FROM Customer a WHERE a.lastname = :lastname")
-	,@NamedQuery(name="Customer.findByLastnameContaining", query="SELECT a FROM Customer a WHERE a.lastname like :lastname")
-
-	,@NamedQuery(name="Customer.findByCompany", query="SELECT a FROM Customer a WHERE a.company = :company")
-	,@NamedQuery(name="Customer.findByCompanyContaining", query="SELECT a FROM Customer a WHERE a.company like :company")
-
-	,@NamedQuery(name="Customer.findByAddress", query="SELECT a FROM Customer a WHERE a.address = :address")
-	,@NamedQuery(name="Customer.findByAddressContaining", query="SELECT a FROM Customer a WHERE a.address like :address")
-
-	,@NamedQuery(name="Customer.findByCity", query="SELECT a FROM Customer a WHERE a.city = :city")
-	,@NamedQuery(name="Customer.findByCityContaining", query="SELECT a FROM Customer a WHERE a.city like :city")
-
-	,@NamedQuery(name="Customer.findByState", query="SELECT a FROM Customer a WHERE a.state = :state")
-	,@NamedQuery(name="Customer.findByStateContaining", query="SELECT a FROM Customer a WHERE a.state like :state")
-
-	,@NamedQuery(name="Customer.findByCountry", query="SELECT a FROM Customer a WHERE a.country = :country")
-	,@NamedQuery(name="Customer.findByCountryContaining", query="SELECT a FROM Customer a WHERE a.country like :country")
-
-	,@NamedQuery(name="Customer.findByPostalcode", query="SELECT a FROM Customer a WHERE a.postalcode = :postalcode")
-	,@NamedQuery(name="Customer.findByPostalcodeContaining", query="SELECT a FROM Customer a WHERE a.postalcode like :postalcode")
-
-	,@NamedQuery(name="Customer.findByPhone", query="SELECT a FROM Customer a WHERE a.phone = :phone")
-	,@NamedQuery(name="Customer.findByPhoneContaining", query="SELECT a FROM Customer a WHERE a.phone like :phone")
-
-	,@NamedQuery(name="Customer.findByFax", query="SELECT a FROM Customer a WHERE a.fax = :fax")
-	,@NamedQuery(name="Customer.findByFaxContaining", query="SELECT a FROM Customer a WHERE a.fax like :fax")
-
-	,@NamedQuery(name="Customer.findByEmail", query="SELECT a FROM Customer a WHERE a.email = :email")
-	,@NamedQuery(name="Customer.findByEmailContaining", query="SELECT a FROM Customer a WHERE a.email like :email")
-
-})
+@Table (name="Customer")
+//@NamedQueries ({
+//	 @NamedQuery(name="Customer.findAll", query="SELECT a FROM Customer a")
+//	,@NamedQuery(name="Customer.findByFirstname", query="SELECT a FROM Customer a WHERE a.firstname = :firstname")
+//	,@NamedQuery(name="Customer.findByFirstnameContaining", query="SELECT a FROM Customer a WHERE a.firstname like :firstname")
+//
+//	,@NamedQuery(name="Customer.findByLastname", query="SELECT a FROM Customer a WHERE a.lastname = :lastname")
+//	,@NamedQuery(name="Customer.findByLastnameContaining", query="SELECT a FROM Customer a WHERE a.lastname like :lastname")
+//
+//	,@NamedQuery(name="Customer.findByCompany", query="SELECT a FROM Customer a WHERE a.company = :company")
+//	,@NamedQuery(name="Customer.findByCompanyContaining", query="SELECT a FROM Customer a WHERE a.company like :company")
+//
+//	,@NamedQuery(name="Customer.findByAddress", query="SELECT a FROM Customer a WHERE a.address = :address")
+//	,@NamedQuery(name="Customer.findByAddressContaining", query="SELECT a FROM Customer a WHERE a.address like :address")
+//
+//	,@NamedQuery(name="Customer.findByCity", query="SELECT a FROM Customer a WHERE a.city = :city")
+//	,@NamedQuery(name="Customer.findByCityContaining", query="SELECT a FROM Customer a WHERE a.city like :city")
+//
+//	,@NamedQuery(name="Customer.findByState", query="SELECT a FROM Customer a WHERE a.state = :state")
+//	,@NamedQuery(name="Customer.findByStateContaining", query="SELECT a FROM Customer a WHERE a.state like :state")
+//
+//	,@NamedQuery(name="Customer.findByCountry", query="SELECT a FROM Customer a WHERE a.country = :country")
+//	,@NamedQuery(name="Customer.findByCountryContaining", query="SELECT a FROM Customer a WHERE a.country like :country")
+//
+//	,@NamedQuery(name="Customer.findByPostalcode", query="SELECT a FROM Customer a WHERE a.postalcode = :postalcode")
+//	,@NamedQuery(name="Customer.findByPostalcodeContaining", query="SELECT a FROM Customer a WHERE a.postalcode like :postalcode")
+//
+//	,@NamedQuery(name="Customer.findByPhone", query="SELECT a FROM Customer a WHERE a.phone = :phone")
+//	,@NamedQuery(name="Customer.findByPhoneContaining", query="SELECT a FROM Customer a WHERE a.phone like :phone")
+//
+//	,@NamedQuery(name="Customer.findByFax", query="SELECT a FROM Customer a WHERE a.fax = :fax")
+//	,@NamedQuery(name="Customer.findByFaxContaining", query="SELECT a FROM Customer a WHERE a.fax like :fax")
+//
+//	,@NamedQuery(name="Customer.findByEmail", query="SELECT a FROM Customer a WHERE a.email = :email")
+//	,@NamedQuery(name="Customer.findByEmailContaining", query="SELECT a FROM Customer a WHERE a.email like :email")
+//
+//})
 
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -120,9 +122,9 @@ public class Customer implements Serializable {
     public static final String FIND_BY_EMAIL = "Customer.findByEmail";
     public static final String FIND_BY_EMAIL_CONTAINING ="Customer.findByEmailContaining";
 	
-    @Id @Column(name="CustomerId" ) 
+    @Id @Column(name="Customer_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer customerid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @FirstName-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @FirstName-field-annotation@
@@ -202,15 +204,15 @@ public class Customer implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY )
-    @JoinColumn(name="SupportRepId", referencedColumnName = "EmployeeId" , nullable=true , unique=false , insertable=true, updatable=true) 
-    private Employee supportrepid;  
+    @JoinColumn(name="SupportRep_id", referencedColumnName = "Employee_id" , nullable=true , unique=false , insertable=true, updatable=true) 
+    private Employee supportrep;  
 
-    @Column(name="SupportRepId"  , nullable=true , unique=true, insertable=false, updatable=false)
+    @Column(name="SupportRep_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer supportrepid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoiceCustomerViaCustomerid-field-customer@
-    @OneToMany (targetEntity=example.chinook.domain.Invoice.class, fetch=FetchType.LAZY, mappedBy="customerid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Invoice> invoiceCustomerViaCustomerid = new HashSet<Invoice>(); 
+//    @OneToMany (targetEntity=example.chinook.domain.Invoice.class, fetch=FetchType.LAZY, mappedBy="customer", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+//    private Set <Invoice> invoiceCustomerViaCustomerid = new HashSet<Invoice>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -219,100 +221,8 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Customer(
-       Integer customerid,
-       String firstname,
-       String lastname,
-       String company,
-       String address,
-       String city,
-       String state,
-       String country,
-       String postalcode,
-       String phone,
-       String fax,
-       String email,
-       Integer supportrepid) {
-	 this(
-       customerid,
-       firstname,
-       lastname,
-       company,
-       address,
-       city,
-       state,
-       country,
-       postalcode,
-       phone,
-       fax,
-       email,
-       supportrepid
-	 ,true);
-	}
-    
-	public Customer(
-       Integer customerid,
-       String firstname,
-       String lastname,
-       String company,
-       String address,
-       String city,
-       String state,
-       String country,
-       String postalcode,
-       String phone,
-       String fax,
-       String email,
-       Integer supportrepid	
-    , boolean setRelationship) {
-       //primary keys
-       setCustomerid (customerid);
-       //attributes
-       setFirstname (firstname);
-       setLastname (lastname);
-       setCompany (company);
-       setAddress (address);
-       setCity (city);
-       setState (state);
-       setCountry (country);
-       setPostalcode (postalcode);
-       setPhone (phone);
-       setFax (fax);
-       setEmail (email);
-       //parents
-       if (setRelationship) this.supportrepid = new Employee();
-       if (setRelationship) this.supportrepid.setEmployeeid(supportrepid); 
-	   setSupportrepid_ (supportrepid);
-    }
-
-	public Customer flat() {
-	   return new Customer(
-          getCustomerid(),
-          getFirstname(),
-          getLastname(),
-          getCompany(),
-          getAddress(),
-          getCity(),
-          getState(),
-          getCountry(),
-          getPostalcode(),
-          getPhone(),
-          getFax(),
-          getEmail(),
-          getSupportrepid_()
-       , false
-	   );
-	}
-
-    public Integer getCustomerid() {
-        return customerid;
-    }
-	
-    public void setCustomerid (Integer customerid) {
-        this.customerid =  customerid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-FirstName@
@@ -437,38 +347,30 @@ public class Customer implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
 
-    public Employee getSupportrepid () {
-    	return supportrepid;
+    public Employee getSupportrep () {
+    	return supportrep;
     }
 	
-    public void setSupportrepid (Employee supportrepid) {
-    	this.supportrepid = supportrepid;
-    }
-
-    public Integer getSupportrepid_() {
-        return supportrepid_;
-    }
-	
-    public void setSupportrepid_ (Integer supportrepid) {
-        this.supportrepid_ =  supportrepid;
+    public void setSupportrep (Employee supportrepid) {
+    	this.supportrep = supportrepid;
     }
 	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoiceCustomerViaCustomerid-getter-customer@
-    public Set<Invoice> getInvoiceCustomerViaCustomerid() {
-        if (invoiceCustomerViaCustomerid == null){
-            invoiceCustomerViaCustomerid = new HashSet<Invoice>();
-        }
-        return invoiceCustomerViaCustomerid;
-    }
-
-    public void setInvoiceCustomerViaCustomerid (Set<Invoice> invoiceCustomerViaCustomerid) {
-        this.invoiceCustomerViaCustomerid = invoiceCustomerViaCustomerid;
-    }	
-    
-    public void addInvoiceCustomerViaCustomerid (Invoice element) {
-    	    getInvoiceCustomerViaCustomerid().add(element);
-    }
+//    public Set<Invoice> getInvoiceCustomerViaCustomerid() {
+//        if (invoiceCustomerViaCustomerid == null){
+//            invoiceCustomerViaCustomerid = new HashSet<Invoice>();
+//        }
+//        return invoiceCustomerViaCustomerid;
+//    }
+//
+//    public void setInvoiceCustomerViaCustomerid (Set<Invoice> invoiceCustomerViaCustomerid) {
+//        this.invoiceCustomerViaCustomerid = invoiceCustomerViaCustomerid;
+//    }	
+//    
+//    public void addInvoiceCustomerViaCustomerid (Invoice element) {
+//    	    getInvoiceCustomerViaCustomerid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

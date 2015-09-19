@@ -49,6 +49,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * <p>Title: Track</p>
@@ -57,7 +61,7 @@ import javax.persistence.Table;
  *
  */
 @Entity (name="Track")
-@Table (name="\"track\"")
+@Table (name="Track")
 @NamedQueries ({
 	 @NamedQuery(name="Track.findAll", query="SELECT a FROM Track a")
 	,@NamedQuery(name="Track.findByName", query="SELECT a FROM Track a WHERE a.name = :name")
@@ -86,9 +90,9 @@ public class Track implements Serializable {
     public static final String FIND_BY_BYTES = "Track.findByBytes";
     public static final String FIND_BY_UNITPRICE = "Track.findByUnitprice";
 	
-    @Id @Column(name="TrackId" ) 
+    @Id @Column(name="Track_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer trackid;
+    private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @Name-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @Name-field-annotation@
@@ -126,36 +130,37 @@ public class Track implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY )
-    @JoinColumn(name="AlbumId", referencedColumnName = "AlbumId" , nullable=true , unique=false , insertable=true, updatable=true) 
-    private Album albumid;  
+    @JoinColumn(name="Album_id", referencedColumnName = "Album_id" , nullable=true , unique=false , insertable=true, updatable=true) 
+    private Album album;  
 
-    @Column(name="AlbumId"  , nullable=true , unique=true, insertable=false, updatable=false)
+    @Column(name="Album_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer albumid_;
 
     @ManyToOne (fetch=FetchType.LAZY )
-    @JoinColumn(name="GenreId", referencedColumnName = "GenreId" , nullable=true , unique=true  , insertable=true, updatable=true) 
-    private Genre genreid;  
+    @JoinColumn(name="Genre_id", referencedColumnName = "Genre_id" , nullable=true , unique=true  , insertable=true, updatable=true) 
+    private Genre genre;  
 
-    @Column(name="GenreId"  , nullable=true , unique=true, insertable=false, updatable=false)
+    @Column(name="Genre_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer genreid_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="MediaTypeId", referencedColumnName = "MediaTypeId" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private Mediatype mediatypeid;  
+    @JoinColumn(name="MediaType_id", referencedColumnName = "MediaType_id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    private Mediatype mediatype;  
 
-    @Column(name="MediaTypeId"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="MediaType_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer mediatypeid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineTrackViaTrackid-field-track@
-    @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="trackid", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="track", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @JsonIgnore
     private Set <Invoiceline> invoicelineTrackViaTrackid = new HashSet<Invoiceline>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @m2m-playlistPlaylisttrackViaPlaylistid-track@
     @ManyToMany
     @JoinTable(name="PLAYLISTTRACK", 
-        joinColumns=@JoinColumn(name="TrackId"), 
-        inverseJoinColumns=@JoinColumn(name="PlaylistId") 
+        joinColumns=@JoinColumn(name="Track_id"), 
+        inverseJoinColumns=@JoinColumn(name="Playlist_id") 
     )
     private Set <Playlist> playlistPlaylisttrackViaPlaylistid = new HashSet <Playlist> (); 
 // playlisttrack.PlaylistId->playlist.PlaylistId -- playlisttrack.PlaylistId->playlist.PlaylistId
@@ -168,84 +173,8 @@ public class Track implements Serializable {
     public Track() {
     }
 
-	/**
-	* All field constructor 
-	*/
-    public Track(
-       Integer trackid,
-       String name,
-       Integer albumid,
-       Integer mediatypeid,
-       Integer genreid,
-       String composer,
-       Integer milliseconds,
-       Integer bytes,
-       java.math.BigDecimal unitprice) {
-	 this(
-       trackid,
-       name,
-       albumid,
-       mediatypeid,
-       genreid,
-       composer,
-       milliseconds,
-       bytes,
-       unitprice
-	 ,true);
-	}
-    
-	public Track(
-       Integer trackid,
-       String name,
-       Integer albumid,
-       Integer mediatypeid,
-       Integer genreid,
-       String composer,
-       Integer milliseconds,
-       Integer bytes,
-       java.math.BigDecimal unitprice	
-    , boolean setRelationship) {
-       //primary keys
-       setTrackid (trackid);
-       //attributes
-       setName (name);
-       setComposer (composer);
-       setMilliseconds (milliseconds);
-       setBytes (bytes);
-       setUnitprice (unitprice);
-       //parents
-       if (setRelationship) this.albumid = new Album();
-       if (setRelationship) this.albumid.setAlbumid(albumid); 
-	   setAlbumid_ (albumid);
-       if (setRelationship) this.genreid = new Genre();
-       if (setRelationship) this.genreid.setGenreid(genreid); 
-	   setGenreid_ (genreid);
-       if (setRelationship) this.mediatypeid = new Mediatype();
-       if (setRelationship) this.mediatypeid.setMediatypeid(mediatypeid); 
-	   setMediatypeid_ (mediatypeid);
-    }
-
-	public Track flat() {
-	   return new Track(
-          getTrackid(),
-          getName(),
-          getAlbumid_(),
-          getMediatypeid_(),
-          getGenreid_(),
-          getComposer(),
-          getMilliseconds(),
-          getBytes(),
-          getUnitprice()
-       , false
-	   );
-	}
-
-    public Integer getTrackid() {
-        return trackid;
-    }
-	
-    public void setTrackid (Integer trackid) {
-        this.trackid =  trackid;
+    public Integer getId() {
+        return id;
     }
     
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-Name@
@@ -304,89 +233,64 @@ public class Track implements Serializable {
 //MP-MANAGED-UPDATABLE-ENDING
 
 
-    public Album getAlbumid () {
-    	return albumid;
+    public Album getAlbum () {
+    	return album;
     }
 	
-    public void setAlbumid (Album albumid) {
-    	this.albumid = albumid;
-    }
-
-    public Integer getAlbumid_() {
-        return albumid_;
+    public void setAlbum (Album albumid) {
+    	this.album = albumid;
     }
 	
-    public void setAlbumid_ (Integer albumid) {
-        this.albumid_ =  albumid;
+    public Genre getGenre () {
+    	return genre;
     }
 	
-    public Genre getGenreid () {
-    	return genreid;
+    public void setGenre (Genre genreid) {
+    	this.genre = genreid;
     }
 	
-    public void setGenreid (Genre genreid) {
-    	this.genreid = genreid;
-    }
-
-    public Integer getGenreid_() {
-        return genreid_;
+    public Mediatype getMediatype () {
+    	return mediatype;
     }
 	
-    public void setGenreid_ (Integer genreid) {
-        this.genreid_ =  genreid;
+    public void setMediatype (Mediatype mediatypeid) {
+    	this.mediatype = mediatypeid;
     }
-	
-    public Mediatype getMediatypeid () {
-    	return mediatypeid;
-    }
-	
-    public void setMediatypeid (Mediatype mediatypeid) {
-    	this.mediatypeid = mediatypeid;
-    }
-
-    public Integer getMediatypeid_() {
-        return mediatypeid_;
-    }
-	
-    public void setMediatypeid_ (Integer mediatypeid) {
-        this.mediatypeid_ =  mediatypeid;
-    }
-	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineTrackViaTrackid-getter-track@
-    public Set<Invoiceline> getInvoicelineTrackViaTrackid() {
-        if (invoicelineTrackViaTrackid == null){
-            invoicelineTrackViaTrackid = new HashSet<Invoiceline>();
-        }
-        return invoicelineTrackViaTrackid;
-    }
-
-    public void setInvoicelineTrackViaTrackid (Set<Invoiceline> invoicelineTrackViaTrackid) {
-        this.invoicelineTrackViaTrackid = invoicelineTrackViaTrackid;
-    }	
-    
-    public void addInvoicelineTrackViaTrackid (Invoiceline element) {
-    	    getInvoicelineTrackViaTrackid().add(element);
-    }
+//    public Set<Invoiceline> getInvoicelineTrackViaTrackid() {
+//        if (invoicelineTrackViaTrackid == null){
+//            invoicelineTrackViaTrackid = new HashSet<Invoiceline>();
+//        }
+//        return invoicelineTrackViaTrackid;
+//    }
+//
+//    public void setInvoicelineTrackViaTrackid (Set<Invoiceline> invoicelineTrackViaTrackid) {
+//        this.invoicelineTrackViaTrackid = invoicelineTrackViaTrackid;
+//    }	
+//    
+//    public void addInvoicelineTrackViaTrackid (Invoiceline element) {
+//    	    getInvoicelineTrackViaTrackid().add(element);
+//    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @playlisttrackViaTrackByTrackid-getter-track@
 //MP-MANAGED-UPDATABLE-ENDING
-
-    public Set<Playlist> getPlaylistPlaylisttrackViaPlaylistid() {
-        if (playlistPlaylisttrackViaPlaylistid == null){
-            playlistPlaylisttrackViaPlaylistid = new HashSet<Playlist>();
-        }
-        return playlistPlaylisttrackViaPlaylistid;
-    }
-
-    public void setPlaylistPlaylisttrackViaPlaylistid (Set<Playlist> playlistPlaylisttrackViaPlaylistid) {
-        this.playlistPlaylisttrackViaPlaylistid = playlistPlaylisttrackViaPlaylistid;
-    }
-    	
-    public void addPlaylistPlaylisttrackViaPlaylistid (Playlist element) {
-        getPlaylistPlaylisttrackViaPlaylistid().add(element);
-    }
+//
+//    public Set<Playlist> getPlaylistPlaylisttrackViaPlaylistid() {
+//        if (playlistPlaylisttrackViaPlaylistid == null){
+//            playlistPlaylisttrackViaPlaylistid = new HashSet<Playlist>();
+//        }
+//        return playlistPlaylisttrackViaPlaylistid;
+//    }
+//
+//    public void setPlaylistPlaylisttrackViaPlaylistid (Set<Playlist> playlistPlaylisttrackViaPlaylistid) {
+//        this.playlistPlaylisttrackViaPlaylistid = playlistPlaylisttrackViaPlaylistid;
+//    }
+//    	
+//    public void addPlaylistPlaylisttrackViaPlaylistid (Playlist element) {
+//        getPlaylistPlaylisttrackViaPlaylistid().add(element);
+//    }
 	
 
 
