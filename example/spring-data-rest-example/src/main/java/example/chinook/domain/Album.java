@@ -47,7 +47,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
  *
@@ -91,8 +91,9 @@ public class Album implements Serializable {
     private Integer artistid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackAlbumViaAlbumid-field-album@
-//    @OneToMany (targetEntity=example.chinook.domain.Track.class, fetch=FetchType.LAZY, mappedBy="album", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-//    private Set <Track> trackAlbumViaAlbumid = new HashSet<Track>(); 
+    @OneToMany (targetEntity=example.chinook.domain.Track.class, fetch=FetchType.LAZY, mappedBy="album", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @RestResource(exported = false)
+    private Set <Track> tracks = new HashSet<Track>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
     /**
@@ -135,20 +136,20 @@ public class Album implements Serializable {
 	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackAlbumViaAlbumid-getter-album@
-//    public Set<Track> getTrackAlbumViaAlbumid() {
-//        if (trackAlbumViaAlbumid == null){
-//            trackAlbumViaAlbumid = new HashSet<Track>();
-//        }
-//        return trackAlbumViaAlbumid;
-//    }
-//
-//    public void setTrackAlbumViaAlbumid (Set<Track> trackAlbumViaAlbumid) {
-//        this.trackAlbumViaAlbumid = trackAlbumViaAlbumid;
-//    }	
-//    
-//    public void addTrackAlbumViaAlbumid (Track element) {
-//    	    getTrackAlbumViaAlbumid().add(element);
-//    }
+    public Set<Track> getTracks() {
+        if (tracks == null){
+            tracks = new HashSet<Track>();
+        }
+        return tracks;
+    }
+
+    public void setTracks (Set<Track> trackAlbumViaAlbumid) {
+        this.tracks = trackAlbumViaAlbumid;
+    }	
+    
+    public void addTrack (Track element) {
+    	    getTracks().add(element);
+    }
     
 //MP-MANAGED-UPDATABLE-ENDING
 

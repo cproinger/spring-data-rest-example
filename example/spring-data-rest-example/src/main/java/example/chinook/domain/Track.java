@@ -48,6 +48,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -62,21 +63,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity (name="Track")
 @Table (name="Track")
-@NamedQueries ({
-	 @NamedQuery(name="Track.findAll", query="SELECT a FROM Track a")
-	,@NamedQuery(name="Track.findByName", query="SELECT a FROM Track a WHERE a.name = :name")
-	,@NamedQuery(name="Track.findByNameContaining", query="SELECT a FROM Track a WHERE a.name like :name")
-
-	,@NamedQuery(name="Track.findByComposer", query="SELECT a FROM Track a WHERE a.composer = :composer")
-	,@NamedQuery(name="Track.findByComposerContaining", query="SELECT a FROM Track a WHERE a.composer like :composer")
-
-	,@NamedQuery(name="Track.findByMilliseconds", query="SELECT a FROM Track a WHERE a.milliseconds = :milliseconds")
-
-	,@NamedQuery(name="Track.findByBytes", query="SELECT a FROM Track a WHERE a.bytes = :bytes")
-
-	,@NamedQuery(name="Track.findByUnitprice", query="SELECT a FROM Track a WHERE a.unitprice = :unitprice")
-
-})
+//@NamedQueries ({
+//	 @NamedQuery(name="Track.findAll", query="SELECT a FROM Track a")
+//	,@NamedQuery(name="Track.findByName", query="SELECT a FROM Track a WHERE a.name = :name")
+//	,@NamedQuery(name="Track.findByNameContaining", query="SELECT a FROM Track a WHERE a.name like :name")
+//
+//	,@NamedQuery(name="Track.findByComposer", query="SELECT a FROM Track a WHERE a.composer = :composer")
+//	,@NamedQuery(name="Track.findByComposerContaining", query="SELECT a FROM Track a WHERE a.composer like :composer")
+//
+//	,@NamedQuery(name="Track.findByMilliseconds", query="SELECT a FROM Track a WHERE a.milliseconds = :milliseconds")
+//
+//	,@NamedQuery(name="Track.findByBytes", query="SELECT a FROM Track a WHERE a.bytes = :bytes")
+//
+//	,@NamedQuery(name="Track.findByUnitprice", query="SELECT a FROM Track a WHERE a.unitprice = :unitprice")
+//
+//})
 
 public class Track implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -131,10 +132,11 @@ public class Track implements Serializable {
 
     @ManyToOne (fetch=FetchType.LAZY )
     @JoinColumn(name="Album_id", referencedColumnName = "Album_id" , nullable=true , unique=false , insertable=true, updatable=true) 
+    @RestResource(exported = true, rel = "trackAlbum")
     private Album album;  
 
-    @Column(name="Album_id"  , nullable=true , unique=true, insertable=false, updatable=false)
-    private Integer albumid_;
+//    @Column(name="Album_id"  , nullable=true , unique=true, insertable=false, updatable=false)
+//    private Integer albumid_;
 
     @ManyToOne (fetch=FetchType.LAZY )
     @JoinColumn(name="Genre_id", referencedColumnName = "Genre_id" , nullable=true , unique=true  , insertable=true, updatable=true) 
@@ -152,7 +154,6 @@ public class Track implements Serializable {
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineTrackViaTrackid-field-track@
     @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="track", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    @JsonIgnore
     private Set <Invoiceline> invoicelineTrackViaTrackid = new HashSet<Invoiceline>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING

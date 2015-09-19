@@ -5,3 +5,5 @@
 /.project
 /test.mv.db
 /test.trace.db
+/.gradle/
+/bin-test/

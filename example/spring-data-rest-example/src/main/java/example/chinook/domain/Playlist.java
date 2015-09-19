@@ -45,6 +45,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 /**
  *
  * <p>Title: Playlist</p>
@@ -85,6 +87,7 @@ public class Playlist implements Serializable {
         joinColumns=@JoinColumn(name="Playlist_id"), 
         inverseJoinColumns=@JoinColumn(name="Track_id") 
     )
+    @RestResource(exported = false)
     private Set <Track> trackPlaylisttrackViaTrackid = new HashSet <Track> (); 
 // playlisttrack.TrackId->track.TrackId -- playlisttrack.TrackId->track.TrackId
 // TRACK_PLAYLISTTRACK_VIA_TRACKID
