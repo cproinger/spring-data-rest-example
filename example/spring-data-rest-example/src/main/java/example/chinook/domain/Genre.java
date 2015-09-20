@@ -38,6 +38,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
+
 /**
  *
  * <p>Title: Genre</p>
@@ -53,7 +55,7 @@ import javax.persistence.Table;
 //	,@NamedQuery(name="Genre.findByNameContaining", query="SELECT a FROM Genre a WHERE a.name like :name")
 //
 //})
-
+@BatchSize(size = 20)
 public class Genre implements Serializable {
     private static final long serialVersionUID = 1L;
 

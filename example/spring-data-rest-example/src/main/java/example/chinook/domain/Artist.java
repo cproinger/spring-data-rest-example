@@ -40,6 +40,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
+
 /**
  *
  * <p>Title: Artist</p>
@@ -55,7 +57,7 @@ import javax.persistence.Table;
 	,@NamedQuery(name="Artist.findByNameContaining", query="SELECT a FROM Artist a WHERE a.name like :name")
 
 })
-
+@BatchSize(size = 20)
 public class Artist implements Serializable {
     private static final long serialVersionUID = 1L;
 

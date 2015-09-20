@@ -87,12 +87,12 @@ public class Album implements Serializable {
     @JoinColumn(name="Artist_id", referencedColumnName = "Artist_id" , nullable=false , unique=false , insertable=true, updatable=true) 
     private Artist artist;  
 
-    @Column(name="Artist_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer artistid_;
+//    @Column(name="Artist_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+//    private Integer artistid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackAlbumViaAlbumid-field-album@
     @OneToMany (targetEntity=example.chinook.domain.Track.class, fetch=FetchType.LAZY, mappedBy="album", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    @RestResource(exported = false)
+    @RestResource(exported = true)
     private Set <Track> tracks = new HashSet<Track>(); 
 
 //MP-MANAGED-UPDATABLE-ENDING
@@ -121,18 +121,22 @@ public class Album implements Serializable {
     public Artist getArtist () {
     	return artist;
     }
+    
+//    public String getArtistName() {
+//    	return artist == null ? null : artist.getName();
+//    }
 	
     public void setArtist(Artist artistid) {
     	this.artist = artistid;
     }
 
-    public Integer getArtistid_() {
-        return artistid_;
-    }
-	
-    public void setArtistid_ (Integer artistid) {
-        this.artistid_ =  artistid;
-    }
+//    public Integer getArtistid_() {
+//        return artistid_;
+//    }
+//	
+//    public void setArtistid_ (Integer artistid) {
+//        this.artistid_ =  artistid;
+//    }
 	
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @trackAlbumViaAlbumid-getter-album@

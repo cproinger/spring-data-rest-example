@@ -38,6 +38,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
+
 /**
  *
  * <p>Title: Mediatype</p>
@@ -53,7 +55,7 @@ import javax.persistence.Table;
 //	,@NamedQuery(name="Mediatype.findByNameContaining", query="SELECT a FROM Mediatype a WHERE a.name like :name")
 //
 //})
-
+@BatchSize(size = 20)
 public class Mediatype implements Serializable {
     private static final long serialVersionUID = 1L;
 

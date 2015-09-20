@@ -47,6 +47,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.rest.core.annotation.Description;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
@@ -127,7 +128,7 @@ public class Track implements Serializable {
 
     @ManyToOne (fetch=FetchType.LAZY )
     @JoinColumn(name="Album_id", referencedColumnName = "Album_id" , nullable=true , unique=false , insertable=true, updatable=true) 
-    @RestResource(exported = true, rel = "trackAlbum")
+    @RestResource(exported = true)
     private Album album;  
 
 //    @Column(name="Album_id"  , nullable=true , unique=true, insertable=false, updatable=false)
@@ -135,17 +136,18 @@ public class Track implements Serializable {
 
     @ManyToOne (fetch=FetchType.LAZY )
     @JoinColumn(name="Genre_id", referencedColumnName = "Genre_id" , nullable=true , unique=true  , insertable=true, updatable=true) 
+    @RestResource(description = @Description(value = "the genre"))
     private Genre genre;  
 
-    @Column(name="Genre_id"  , nullable=true , unique=true, insertable=false, updatable=false)
-    private Integer genreid_;
+//    @Column(name="Genre_id"  , nullable=true , unique=true, insertable=false, updatable=false)
+//    private Integer genreid_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="MediaType_id", referencedColumnName = "MediaType_id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private Mediatype mediatype;  
 
-    @Column(name="MediaType_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer mediatypeid_;
+//    @Column(name="MediaType_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+//    private Integer mediatypeid_;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @invoicelineTrackViaTrackid-field-track@
     @OneToMany (targetEntity=example.chinook.domain.Invoiceline.class, fetch=FetchType.LAZY, mappedBy="track", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
@@ -158,6 +160,7 @@ public class Track implements Serializable {
         joinColumns=@JoinColumn(name="Track_id"), 
         inverseJoinColumns=@JoinColumn(name="Playlist_id") 
     )
+    @RestResource(exported = false)
     private Set <Playlist> playlistPlaylisttrackViaPlaylistid = new HashSet <Playlist> (); 
 // playlisttrack.PlaylistId->playlist.PlaylistId -- playlisttrack.PlaylistId->playlist.PlaylistId
 // PLAYLIST_PLAYLISTTRACK_VIA_PLAYLISTID
@@ -240,6 +243,10 @@ public class Track implements Serializable {
     public Genre getGenre () {
     	return genre;
     }
+    
+//    public String getGenreName() {
+//    	return genre == null ? null : genre.getName();
+//    }
 	
     public void setGenre (Genre genreid) {
     	this.genre = genreid;
@@ -248,6 +255,10 @@ public class Track implements Serializable {
     public Mediatype getMediatype () {
     	return mediatype;
     }
+    
+//    public String getMediatypeName() {
+//    	return mediatype == null ? null : mediatype.getName();
+//    }
 	
     public void setMediatype (Mediatype mediatypeid) {
     	this.mediatype = mediatypeid;

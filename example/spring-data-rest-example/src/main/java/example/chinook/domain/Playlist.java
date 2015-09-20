@@ -85,7 +85,7 @@ public class Playlist implements Serializable {
         joinColumns=@JoinColumn(name="Playlist_id"), 
         inverseJoinColumns=@JoinColumn(name="Track_id") 
     )
-    @RestResource(exported = false)
+    @RestResource(exported = true)
     private Set <Track> trackPlaylisttrackViaTrackid = new HashSet <Track> (); 
 // playlisttrack.TrackId->track.TrackId -- playlisttrack.TrackId->track.TrackId
 // TRACK_PLAYLISTTRACK_VIA_TRACKID
