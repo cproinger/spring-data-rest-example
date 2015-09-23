@@ -14,6 +14,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -112,5 +113,13 @@ public class RepositoryTest {
 			System.err.println(e.getResponseBodyAsString());
 			assertNull(e);
 		}
+	}
+	
+	@Autowired
+	private AlbumRepository albumRepo;
+	
+	@Test
+	public void test() {
+		albumRepo.findAll();
 	}
 }

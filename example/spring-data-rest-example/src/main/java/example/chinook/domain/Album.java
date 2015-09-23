@@ -45,8 +45,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.JoinFormula;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 /**
@@ -75,6 +79,14 @@ public class Album implements Serializable {
     @Id @Column(name="Album_id" ) 
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
+    /**
+     * lazy mapping of the track-count of this album
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @OneToOne(fetch = FetchType.LAZY) //-> NPE: Hibernate Bug?
+    @JoinFormula(value = "Album_id", referencedColumnName = "Album_id")
+    private AlbumTracks albumTracks;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @Title-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @Title-field-annotation@

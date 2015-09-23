@@ -120,7 +120,9 @@ CREATE TABLE Track
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-
+create view AlbumTracks as
+select Album_id, count(*) as count from Track
+group by Album_id;
 
 CREATE TABLE PlaylistTrack
 (
