@@ -1,8 +1,5 @@
 package example;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -29,18 +26,16 @@ public class Application extends RepositoryRestMvcConfiguration {
 
 	@Override
 	protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		try {
-			config.setBaseUri(new URI("/"));
-		} catch (URISyntaxException exception) {
-			throw new RuntimeException("Cannot set base uri on REST configuration", exception);
-		}
+		//was setBaseURI(new URI("/")) in the version before is not needed
+		//anymore if root path is used
+		//config.setBasePath(null);
 	}
 	
 	@Bean
 	public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
 		return new OpenEntityManagerInViewFilter();
 	}
-	
+
 	//does not work. 
 //	@Autowired
 //	private EntityManagerFactory emf;
