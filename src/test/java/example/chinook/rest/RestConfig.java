@@ -20,8 +20,8 @@ public class RestConfig {
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder()
 			.setType(EmbeddedDatabaseType.H2)
-			.addScript("classpath:sql/create-tables.sql")
-			.addScript("classpath:sql/insert-data.sql")
+			.addScript("classpath:sql/schema.sql")
+			.addScript("classpath:sql/data.sql")
 			.build();
 	}
 }
